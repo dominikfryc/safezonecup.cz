@@ -28,10 +28,10 @@ export function EditScheduleDialog({
   async function action(formData: FormData) {
     try {
       await editScheduleItem(formData);
-      toast.success('Event updated successfully');
+      toast.success('Událost byla úspěšně upravena');
       setIsOpen(false);
     } catch (error) {
-      toast.error('Failed to update event');
+      toast.error('Při úpravě události došlo k chybě');
     }
   }
 
@@ -39,14 +39,14 @@ export function EditScheduleDialog({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Event</DialogTitle>
+          <DialogTitle>Upravit událost</DialogTitle>
         </DialogHeader>
         <form action={action} key={isOpen ? 'open' : 'closed'}>
           <input type="hidden" name="id" value={scheduleItem.id} />
 
           <FieldGroup>
             <Field>
-              <FieldLabel>Time</FieldLabel>
+              <FieldLabel>Čas</FieldLabel>
               <Input
                 name="time"
                 type="time"
@@ -56,7 +56,7 @@ export function EditScheduleDialog({
             </Field>
 
             <Field>
-              <FieldLabel>Event Description</FieldLabel>
+              <FieldLabel>Popis události</FieldLabel>
               <Textarea
                 name="event"
                 defaultValue={scheduleItem.event}
@@ -67,7 +67,7 @@ export function EditScheduleDialog({
           </FieldGroup>
 
           <Button type="submit" className="w-full mt-4">
-            Save changes
+            Uložit změny
           </Button>
         </form>
       </DialogContent>

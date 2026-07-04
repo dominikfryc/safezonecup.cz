@@ -23,14 +23,14 @@ export function MatchStatusControls({ matchId, status }: { matchId: string; stat
   const handleStart = () => {
     startTransition(async () => {
       await updateMatchStatus(matchId, 'in_progress');
-      toast.success('Match started successfully');
+      toast.success('Zápas byl úspěšně zahájen');
     });
   };
 
   const handleEnd = () => {
     startTransition(async () => {
       await updateMatchStatus(matchId, 'finished');
-      toast.success('Match finished successfully');
+      toast.success('Zápas byl úspěšně ukončen');
     });
   };
 
@@ -42,7 +42,7 @@ export function MatchStatusControls({ matchId, status }: { matchId: string; stat
         ) : (
           <Play className="mr-2 h-4 w-4" />
         )}
-        Start Match
+        Zahájit zápas
       </Button>
     );
   }
@@ -53,19 +53,19 @@ export function MatchStatusControls({ matchId, status }: { matchId: string; stat
         <AlertDialogTrigger asChild>
           <Button variant="outline" disabled={isPending}>
             {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            End Match
+            Ukončit zápas
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-2xl font-bold mb-2">End Match?</AlertDialogTitle>
+            <AlertDialogTitle className="text-2xl font-bold mb-2">Ukončit zápas?</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to end this match? The final score will be saved.
+              Opravdu chcete ukončit tento zápas? Konečné skóre bude uloženo.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleEnd}>End Match</AlertDialogAction>
+            <AlertDialogCancel>Zrušit</AlertDialogCancel>
+            <AlertDialogAction onClick={handleEnd}>Ukončit zápas</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

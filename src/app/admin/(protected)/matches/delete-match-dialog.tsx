@@ -1,27 +1,47 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { deleteMatch } from './actions'
-import { toast } from 'sonner'
-import { Trash2 } from 'lucide-react'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import { useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { deleteMatch } from './actions';
+import { toast } from 'sonner';
+import { Trash2 } from 'lucide-react';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
-export function DeleteMatchDialog({ match, asDropdownItem, open, onOpenChange }: { match: any, asDropdownItem?: boolean, open?: boolean, onOpenChange?: (open: boolean) => void }) {
-  const [internalOpen, setInternalOpen] = useState(false)
-  
-  const isControlled = open !== undefined
-  const isOpen = isControlled ? open : internalOpen
-  const setIsOpen = isControlled ? onOpenChange! : setInternalOpen
+export function DeleteMatchDialog({
+  match,
+  asDropdownItem,
+  open,
+  onOpenChange,
+}: {
+  match: any;
+  asDropdownItem?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}) {
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  const isControlled = open !== undefined;
+  const isOpen = isControlled ? open : internalOpen;
+  const setIsOpen = isControlled ? onOpenChange! : setInternalOpen;
 
   async function action(formData: FormData) {
     try {
-      await deleteMatch(formData)
-      toast.success('Match deleted successfully')
-      setIsOpen(false)
+      await deleteMatch(formData);
+      toast.success('Zápas byl úspěšně smazán');
+      setIsOpen(false);
     } catch {
-      toast.error('Failed to delete match')
+      toast.error('Při mazání zápasu došlo k chybě');
     }
   }
 
@@ -32,7 +52,7 @@ export function DeleteMatchDialog({ match, asDropdownItem, open, onOpenChange }:
           {asDropdownItem ? (
             <DropdownMenuItem onSelect={(e) => e.preventDefault()} variant="destructive">
               <Trash2 className="mr-2 size-4" />
-              Delete
+              Smazat
             </DropdownMenuItem>
           ) : (
             <Button
@@ -41,26 +61,30 @@ export function DeleteMatchDialog({ match, asDropdownItem, open, onOpenChange }:
               className="text-destructive hover:text-destructive gap-2"
             >
               <Trash2 className="size-3.5" />
-              Delete
+              Smazat
             </Button>
           )}
         </AlertDialogTrigger>
       )}
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-2xl font-bold mb-2">Delete Match?</AlertDialogTitle>
+          <AlertDialogTitle className="text-2xl font-bold mb-2">Smazat zápas?</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete this match between <strong>{match.home_team?.name}</strong> and <strong>{match.away_team?.name}</strong>? This will also remove any goals associated with the match. This cannot be undone.
+            Opravdu chcete smazat tento zápas mezi <strong>{match.home_team?.name}</strong> a{' '}
+            <strong>{match.away_team?.name}</strong>? Tímto se také odstraní všechny góly spojené s
+            tímto zápasem. Tuto akci nelze vrátit.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>Zrušit</AlertDialogCancel>
           <form action={action} className="m-0">
             <input type="hidden" name="id" value={match.id} />
-            <AlertDialogAction type="submit" variant="destructive" className="w-full sm:w-auto m-0">Delete Match</AlertDialogAction>
+            <AlertDialogAction type="submit" variant="destructive" className="w-full sm:w-auto m-0">
+              Smazat zápas
+            </AlertDialogAction>
           </form>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

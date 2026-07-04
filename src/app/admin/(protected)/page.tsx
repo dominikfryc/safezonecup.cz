@@ -28,10 +28,8 @@ export default async function AdminDashboard() {
   if (!activeTournament) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-bold">No Active Tournament</h2>
-        <p className="text-muted-foreground mb-6">
-          Please create a tournament in the Tournaments tab.
-        </p>
+        <h2 className="text-2xl font-bold">Žádný aktivní turnaj</h2>
+        <p className="text-muted-foreground mb-6">Vytvořte prosím turnaj v záložce Turnaje.</p>
       </div>
     );
   }
@@ -59,13 +57,13 @@ export default async function AdminDashboard() {
   return (
     <div className="flex flex-col gap-6 pt-2">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Přehled</h1>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card className="rounded-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Teams</CardTitle>
+            <CardTitle className="text-sm font-medium">Celkem týmů</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -75,7 +73,7 @@ export default async function AdminDashboard() {
 
         <Card className="rounded-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Players</CardTitle>
+            <CardTitle className="text-sm font-medium">Celkem hráčů</CardTitle>
             <User className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -85,7 +83,7 @@ export default async function AdminDashboard() {
 
         <Card className="rounded-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Matches</CardTitle>
+            <CardTitle className="text-sm font-medium">Celkem zápasů</CardTitle>
             <Trophy className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -95,7 +93,7 @@ export default async function AdminDashboard() {
 
         <Card className="rounded-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Goals Scored</CardTitle>
+            <CardTitle className="text-sm font-medium">Celkem gólů</CardTitle>
             <Target className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>

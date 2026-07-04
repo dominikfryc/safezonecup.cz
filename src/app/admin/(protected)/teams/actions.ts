@@ -1,54 +1,52 @@
-'use server'
+'use server';
 
-import { createClient } from '@/utils/supabase/server'
-import { revalidatePath } from 'next/cache'
+import { createClient } from '@/utils/supabase/server';
+import { revalidatePath } from 'next/cache';
 
 export async function addTeam(formData: FormData) {
-  const supabase = await createClient()
-  
-  const tournament_id = formData.get('tournament_id') as string
-  const name = formData.get('name') as string
-  const group = formData.get('group') as string
-  
-  if (!tournament_id || !name) return
+  const supabase = await createClient();
 
-  const finalGroup = (group === "" || group === "Unassigned") ? null : group
+  const tournament_id = formData.get('tournament_id') as string;
+  const name = formData.get('name') as string;
+  const group = formData.get('group') as string;
+
+  if (!tournament_id || !name) return;
+
+  const finalGroup = group === '' || group === 'Unassigned' ? null : group;
 
   await supabase.from('teams').insert({
     tournament_id,
     name,
-    group: finalGroup
-  })
+    group: finalGroup,
+  });
 
-  revalidatePath('/admin/teams')
+  revalidatePath('/admin/teams');
 }
 
 export async function editTeam(formData: FormData) {
-  const supabase = await createClient()
-  
-  const id = formData.get('id') as string
-  const name = formData.get('name') as string
-  const group = formData.get('group') as string
-  
-  if (!id || !name) return
+  const supabase = await createClient();
 
-  const finalGroup = (group === "" || group === "Unassigned") ? null : group
+  const id = formData.get('id') as string;
+  const name = formData.get('name') as string;
+  const group = formData.get('group') as string;
 
-  await supabase.from('teams').update({ name, group: finalGroup }).eq('id', id)
+  if (!id || !name) return;
 
-  revalidatePath('/admin/teams')
+  const finalGroup = group === '' || group === 'Unassigned' ? null : group;
+
+  await supabase.from('teams').update({ name, group: finalGroup }).eq('id', id);
+
+  revalidatePath('/admin/teams');
 }
 
 export async function removeTeam(formData: FormData) {
-  const supabase = await createClient()
-  
-  const id = formData.get('id') as string
-  
-  if (!id) return
+  const supabase = await createClient();
 
-  await supabase.from('teams').delete().eq('id', id)
+  const id = formData.get('id') as string;
 
-  revalidatePath('/admin/teams')
+  if (!id) return;
+
+  await supabase.from('teams').delete().eq('id', id);
+
+  revalidatePath('/admin/teams');
 }
-
-

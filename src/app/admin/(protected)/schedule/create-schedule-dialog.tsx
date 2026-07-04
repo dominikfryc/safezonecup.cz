@@ -22,10 +22,10 @@ export function CreateScheduleDialog({ tournamentId }: { tournamentId: string })
   async function action(formData: FormData) {
     try {
       await addScheduleItem(formData);
-      toast.success('Event created successfully');
+      toast.success('Událost byla úspěšně vytvořena');
       setOpen(false);
     } catch (error) {
-      toast.error('Failed to create event');
+      toast.error('Při vytváření události došlo k chybě');
     }
   }
 
@@ -34,27 +34,27 @@ export function CreateScheduleDialog({ tournamentId }: { tournamentId: string })
       <DialogTrigger asChild>
         <Button>
           <Plus className="w-4 h-4 mr-2" />
-          Add Event
+          Přidat událost
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Event</DialogTitle>
+          <DialogTitle>Přidat událost</DialogTitle>
         </DialogHeader>
         <form action={action} key={open ? 'open' : 'closed'}>
           <input type="hidden" name="tournament_id" value={tournamentId} />
 
           <FieldGroup>
             <Field>
-              <FieldLabel>Time</FieldLabel>
+              <FieldLabel>Čas</FieldLabel>
               <Input name="time" type="time" required />
             </Field>
 
             <Field>
-              <FieldLabel>Event Description</FieldLabel>
+              <FieldLabel>Popis události</FieldLabel>
               <Textarea
                 name="event"
-                placeholder="E.g. Lunch Break, Opening Ceremony..."
+                placeholder="Např. Oběd, Slavnostní zahájení..."
                 required
                 className="resize-none"
               />
@@ -62,7 +62,7 @@ export function CreateScheduleDialog({ tournamentId }: { tournamentId: string })
           </FieldGroup>
 
           <Button type="submit" className="w-full mt-4">
-            Add event
+            Přidat událost
           </Button>
         </form>
       </DialogContent>

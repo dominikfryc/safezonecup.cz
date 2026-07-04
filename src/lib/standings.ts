@@ -4,7 +4,10 @@ export type TeamStats = {
   gs: number;
 };
 
-export function calculateTeamStats(matches: any[], allTeamIds?: string[]): Record<string, TeamStats> {
+export function calculateTeamStats(
+  matches: any[],
+  allTeamIds?: string[],
+): Record<string, TeamStats> {
   const stats: Record<string, TeamStats> = {};
 
   matches.forEach((m) => {
@@ -55,16 +58,16 @@ export type SortableTeam = {
 export function sortTeams<T extends SortableTeam>(teams: T[]): T[] {
   return [...teams].sort((a, b) => {
     if (b.pts !== a.pts) return b.pts - a.pts; // 1. Points
-    if (b.gd !== a.gd) return b.gd - a.gd;     // 2. Goal Difference
-    if (b.gs !== a.gs) return b.gs - a.gs;     // 3. Goals Scored
-    
+    if (b.gd !== a.gd) return b.gd - a.gd; // 2. Goal Difference
+    if (b.gs !== a.gs) return b.gs - a.gs; // 3. Goals Scored
+
     // 4. Groups
     if (a.group !== b.group) {
       if (!a.group) return 1; // Unassigned teams go last
       if (!b.group) return -1;
       return a.group.localeCompare(b.group, undefined, { numeric: true });
     }
-    
+
     // 5. Alphabetically
     return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
   });

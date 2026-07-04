@@ -1,42 +1,43 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { createClient } from '@/utils/supabase/client'
-import { Trophy } from 'lucide-react'
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
+import { Trophy } from 'lucide-react';
 
 export function AuthHashHandler() {
-  const router = useRouter()
-  const [isRecovering, setIsRecovering] = useState(false)
+  const router = useRouter();
+  const [isRecovering, setIsRecovering] = useState(false);
 
   useEffect(() => {
     // Only intercept if there's an access_token in the URL hash
     if (typeof window !== 'undefined' && window.location.hash.includes('access_token=')) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setIsRecovering(true)
-      const supabase = createClient()
+      setIsRecovering(true);
+      const supabase = createClient();
 
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((event) => {
         if (event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') {
           // Delay to ensure the cookie storage adapter has fully written the session
           setTimeout(() => {
-            router.push('/admin/update-password')
-          }, 1500)
+            router.push('/admin/update-password');
+          }, 1500);
         }
-      })
+      });
 
       // Fallback in case the event was missed
       setTimeout(() => {
         if (window.location.hash.includes('access_token=')) {
-          router.push('/admin/update-password')
+          router.push('/admin/update-password');
         }
-      }, 3000)
+      }, 3000);
 
       return () => {
-        subscription.unsubscribe()
-      }
+        subscription.unsubscribe();
+      };
     }
-  }, [router])
+  }, [router]);
 
   if (isRecovering) {
     return (
@@ -46,8 +47,8 @@ export function AuthHashHandler() {
           <p className="text-xl font-bold">Verifying Secure Link...</p>
         </div>
       </div>
-    )
+    );
   }
 
-  return null
+  return null;
 }

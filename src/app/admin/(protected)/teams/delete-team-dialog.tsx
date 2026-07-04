@@ -1,27 +1,47 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { removeTeam } from './actions'
-import { toast } from 'sonner'
-import { Trash2 } from 'lucide-react'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import { useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { removeTeam } from './actions';
+import { toast } from 'sonner';
+import { Trash2 } from 'lucide-react';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
-export function DeleteTeamDialog({ team, asDropdownItem, open, onOpenChange }: { team: { id: string, name: string }, asDropdownItem?: boolean, open?: boolean, onOpenChange?: (open: boolean) => void }) {
-  const [internalOpen, setInternalOpen] = useState(false)
-  
-  const isControlled = open !== undefined
-  const isOpen = isControlled ? open : internalOpen
-  const setIsOpen = isControlled ? onOpenChange! : setInternalOpen
+export function DeleteTeamDialog({
+  team,
+  asDropdownItem,
+  open,
+  onOpenChange,
+}: {
+  team: { id: string; name: string };
+  asDropdownItem?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}) {
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  const isControlled = open !== undefined;
+  const isOpen = isControlled ? open : internalOpen;
+  const setIsOpen = isControlled ? onOpenChange! : setInternalOpen;
 
   async function action(formData: FormData) {
     try {
-      await removeTeam(formData)
-      toast.success('Team deleted successfully')
-      setIsOpen(false)
+      await removeTeam(formData);
+      toast.success('Tým byl úspěšně smazán');
+      setIsOpen(false);
     } catch {
-      toast.error('Failed to delete team')
+      toast.error('Při mazání týmu došlo k chybě');
     }
   }
 
@@ -32,7 +52,7 @@ export function DeleteTeamDialog({ team, asDropdownItem, open, onOpenChange }: {
           {asDropdownItem ? (
             <DropdownMenuItem onSelect={(e) => e.preventDefault()} variant="destructive">
               <Trash2 className="mr-2 size-4" />
-              Delete
+              Smazat
             </DropdownMenuItem>
           ) : (
             <Button
@@ -48,19 +68,22 @@ export function DeleteTeamDialog({ team, asDropdownItem, open, onOpenChange }: {
       )}
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-2xl font-bold mb-2">Remove Team?</AlertDialogTitle>
+          <AlertDialogTitle className="text-2xl font-bold mb-2">Odstranit tým?</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to remove <strong>{team.name}</strong> from the tournament? This cannot be undone.
+            Opravdu chcete odstranit tým <strong>{team.name}</strong> z turnaje? Tuto akci nelze
+            vrátit.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>Zrušit</AlertDialogCancel>
           <form action={action} className="m-0">
             <input type="hidden" name="id" value={team.id} />
-            <AlertDialogAction type="submit" variant="destructive" className="w-full sm:w-auto m-0">Remove Team</AlertDialogAction>
+            <AlertDialogAction type="submit" variant="destructive" className="w-full sm:w-auto m-0">
+              Odstranit tým
+            </AlertDialogAction>
           </form>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

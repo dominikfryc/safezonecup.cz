@@ -32,10 +32,10 @@ export function DeleteScheduleDialog({
   async function action(formData: FormData) {
     try {
       await removeScheduleItem(formData);
-      toast.success('Event removed successfully');
+      toast.success('Událost byla úspěšně smazána');
       setIsOpen(false);
     } catch (error) {
-      toast.error('Failed to remove event');
+      toast.error('Při mazání události došlo k chybě');
     }
   }
 
@@ -43,10 +43,10 @@ export function DeleteScheduleDialog({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete Event</DialogTitle>
+          <DialogTitle>Smazat událost</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete the event "{scheduleItem.event}" scheduled at{' '}
-            {formatTime(scheduleItem.time)}? This action cannot be undone.
+            Opravdu chcete smazat událost "{scheduleItem.event}" naplánovanou na{' '}
+            {formatTime(scheduleItem.time)}? Tuto akci nelze vrátit.
           </DialogDescription>
         </DialogHeader>
         <form action={action}>
@@ -54,10 +54,10 @@ export function DeleteScheduleDialog({
 
           <div className="flex justify-end gap-2 mt-4">
             <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
-              Cancel
+              Zrušit
             </Button>
             <Button type="submit" variant="destructive">
-              Delete
+              Smazat
             </Button>
           </div>
         </form>

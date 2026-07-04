@@ -39,7 +39,7 @@ export default async function TeamDetailsPage({ params }: { params: Promise<{ id
         <Button variant="ghost" size="sm" className="mb-4 -ml-3" asChild>
           <Link href="/admin/teams">
             <ArrowLeft className="mr-2 size-4" />
-            Back to Teams
+            Zpět na týmy
           </Link>
         </Button>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -60,10 +60,9 @@ export default async function TeamDetailsPage({ params }: { params: Promise<{ id
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
               <Users className="size-10 text-muted-foreground" />
             </div>
-            <h2 className="mt-6 text-xl font-semibold">No players added</h2>
+            <h2 className="mt-6 text-xl font-semibold">Žádní hráči</h2>
             <p className="mt-2 text-center text-sm font-normal leading-tight text-muted-foreground max-w-sm mb-6">
-              You haven&apos;t added any players to this team yet. Add players to complete your
-              roster.
+              Zatím jste do tohoto týmu nepřidali žádné hráče. Přidejte hráče a doplňte soupisku.
             </p>
             <CreatePlayerDialog teamId={team.id} tournamentId={team.tournament_id} />
           </div>
@@ -71,9 +70,9 @@ export default async function TeamDetailsPage({ params }: { params: Promise<{ id
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="whitespace-nowrap">Player Name</TableHead>
-                <TableHead className="whitespace-nowrap text-center">Goals</TableHead>
-                <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
+                <TableHead className="whitespace-nowrap">Jméno hráče</TableHead>
+                <TableHead className="whitespace-nowrap text-center">Góly</TableHead>
+                <TableHead className="text-right whitespace-nowrap">Akce</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

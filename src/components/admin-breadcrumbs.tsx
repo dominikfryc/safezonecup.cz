@@ -45,8 +45,8 @@ export function AdminBreadcrumbs() {
             .eq('id', id)
             .single();
           if (data) {
-            const home = (data.home_team as unknown as { name: string })?.name || 'TBD';
-            const away = (data.away_team as unknown as { name: string })?.name || 'TBD';
+            const home = (data.home_team as unknown as { name: string })?.name || '?';
+            const away = (data.away_team as unknown as { name: string })?.name || '?';
             setMatchTitle(`${home} - ${away}`);
           }
         };
@@ -62,7 +62,7 @@ export function AdminBreadcrumbs() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/admin/teams">Teams</BreadcrumbLink>
+            <BreadcrumbLink href="/admin/teams">Týmy</BreadcrumbLink>
           </BreadcrumbItem>
           {teamName && (
             <>
@@ -82,7 +82,7 @@ export function AdminBreadcrumbs() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/admin/matches">Matches</BreadcrumbLink>
+            <BreadcrumbLink href="/admin/matches">Zápasy</BreadcrumbLink>
           </BreadcrumbItem>
           {matchTitle && (
             <>
@@ -98,12 +98,12 @@ export function AdminBreadcrumbs() {
   }
 
   const getBreadcrumbs = () => {
-    if (pathname === '/admin') return 'Dashboard';
-    if (pathname === '/admin/tournaments') return 'Tournaments';
-    if (pathname === '/admin/teams') return 'Teams';
-    if (pathname === '/admin/schedule') return 'Schedule';
-    if (pathname === '/admin/matches') return 'Matches';
-    if (pathname === '/admin/settings') return 'Settings';
+    if (pathname === '/admin') return 'Přehled';
+    if (pathname === '/admin/tournaments') return 'Turnaje';
+    if (pathname === '/admin/teams') return 'Týmy';
+    if (pathname === '/admin/schedule') return 'Harmonogram';
+    if (pathname === '/admin/matches') return 'Zápasy';
+    if (pathname === '/admin/settings') return 'Nastavení';
     return 'Admin Panel';
   };
 

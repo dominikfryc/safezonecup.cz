@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import Link from "next/link"
+import Link from 'next/link';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -8,18 +8,18 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar';
 
 export function NavMain({
   items,
 }: {
   items: {
-    title: string
-    url: string
-    icon?: React.ReactNode
-  }[]
+    title: string;
+    url: string;
+    icon?: React.ReactNode;
+  }[];
 }) {
-  const { setOpenMobile, isMobile } = useSidebar()
+  const { setOpenMobile, isMobile } = useSidebar();
 
   return (
     <SidebarGroup>
@@ -28,10 +28,10 @@ export function NavMain({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton tooltip={item.title} asChild>
-                <Link 
-                  href={item.url} 
+                <Link
+                  href={item.url}
                   onClick={() => {
-                    if (isMobile) setOpenMobile(false)
+                    if (isMobile) setOpenMobile(false);
                   }}
                 >
                   {item.icon}
@@ -43,5 +43,5 @@ export function NavMain({
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
-  )
+  );
 }

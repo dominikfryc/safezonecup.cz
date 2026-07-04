@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/login-form"
+import { LoginForm } from '@/components/login-form';
 
 export default async function LoginPage(props: { searchParams: Promise<{ error?: string }> }) {
   const searchParams = await props.searchParams;
@@ -8,5 +8,5 @@ export default async function LoginPage(props: { searchParams: Promise<{ error?:
         <LoginForm error={searchParams?.error} />
       </div>
     </div>
-  )
+  );
 }

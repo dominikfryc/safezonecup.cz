@@ -1,22 +1,27 @@
-import { Trophy } from 'lucide-react'
-import Link from 'next/link'
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
-import { Button } from '@/components/ui/button'
-import { AuthHashHandler } from '@/components/auth-hash-handler'
-import { headers } from 'next/headers'
+import { Trophy } from 'lucide-react';
+import Link from 'next/link';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from '@/components/ui/navigation-menu';
+import { Button } from '@/components/ui/button';
+import { AuthHashHandler } from '@/components/auth-hash-handler';
+import { headers } from 'next/headers';
 
-export default function PublicLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden flex flex-col">
       <AuthHashHandler />
       {/* Premium Background Effects */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-600/30 rounded-full mix-blend-screen filter blur-[100px] animate-pulse"></div>
-        <div className="absolute top-1/3 -right-20 w-80 h-80 bg-purple-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div
+          className="absolute top-1/3 -right-20 w-80 h-80 bg-purple-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-pulse"
+          style={{ animationDelay: '2s' }}
+        ></div>
       </div>
 
       {/* Header */}
@@ -31,27 +36,27 @@ export default function PublicLayout({
                 SAFEZONE CUP
               </h1>
             </Link>
-            
+
             <NavigationMenu className="hidden md:flex">
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <Link href="/matches" legacyBehavior passHref>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Matches
+                      Zápasy
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link href="/groups" legacyBehavior passHref>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Groups
+                      Skupiny
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link href="/playoffs" legacyBehavior passHref>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Playoffs
+                      Play-off
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -62,16 +67,16 @@ export default function PublicLayout({
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-            
+
             <div className="md:hidden flex gap-2">
               <Button asChild variant="ghost" size="sm">
-                <Link href="/matches">Matches</Link>
+                <Link href="/matches">Zápasy</Link>
               </Button>
               <Button asChild variant="ghost" size="sm">
-                <Link href="/groups">Groups</Link>
+                <Link href="/groups">Skupiny</Link>
               </Button>
               <Button asChild variant="ghost" size="sm">
-                <Link href="/playoffs">Playoffs</Link>
+                <Link href="/playoffs">Play-off</Link>
               </Button>
               <Button asChild variant="secondary" size="sm">
                 <Link href="/admin">Admin</Link>
@@ -86,5 +91,5 @@ export default function PublicLayout({
         {children}
       </main>
     </div>
-  )
+  );
 }

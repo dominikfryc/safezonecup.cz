@@ -23,10 +23,10 @@ export function GenerateButton({
       try {
         await action(formData);
         const itemName = label.replace('Generate ', '');
-        toast.success(`${itemName} generated successfully`);
+        toast.success(`Úspěšně vygenerováno`);
       } catch (e: any) {
         const itemName = label.replace('Generate ', '').toLowerCase();
-        toast.error(e.message || `Failed to generate ${itemName}`);
+        toast.error(e.message || `Chyba při generování`);
       }
     });
   };

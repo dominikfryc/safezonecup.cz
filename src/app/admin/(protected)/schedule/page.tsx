@@ -41,12 +41,12 @@ export default async function SchedulePage() {
   if (!activeTournament) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-bold mb-2">No Active Tournament</h2>
+        <h2 className="text-2xl font-bold mb-2">Žádný aktivní turnaj</h2>
         <p className="text-muted-foreground mb-6">
-          Please create or activate a tournament on the dashboard first.
+          Nejprve prosím vytvořte nebo aktivujte turnaj na přehledu.
         </p>
         <Button asChild>
-          <Link href="/admin">Go to Dashboard</Link>
+          <Link href="/admin">Zpět na přehled</Link>
         </Button>
       </div>
     );
@@ -65,12 +65,10 @@ export default async function SchedulePage() {
     <div className="flex flex-col gap-6 pt-2">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Schedule</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Harmonogram</h1>
         </div>
 
-        {typedSchedules.length > 0 && (
-          <CreateScheduleDialog tournamentId={activeTournament.id} />
-        )}
+        {typedSchedules.length > 0 && <CreateScheduleDialog tournamentId={activeTournament.id} />}
       </div>
 
       <div className="w-full rounded-md border overflow-hidden bg-card">
@@ -79,9 +77,10 @@ export default async function SchedulePage() {
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
               <Calendar className="size-10 text-muted-foreground" />
             </div>
-            <h2 className="mt-6 text-xl font-semibold">No schedule events</h2>
+            <h2 className="mt-6 text-xl font-semibold">Žádné naplánované události</h2>
             <p className="mt-2 text-center text-sm font-normal leading-tight text-muted-foreground max-w-sm mb-6">
-              You haven't added any schedule events to this tournament yet. Add events to build the timeline.
+              Do tohoto turnaje jste ještě nepřidali žádné události. Přidejte je pro vytvoření
+              harmonogramu.
             </p>
             <CreateScheduleDialog tournamentId={activeTournament.id} />
           </div>
@@ -89,9 +88,9 @@ export default async function SchedulePage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[150px]">Time</TableHead>
-                <TableHead>Event</TableHead>
-                <TableHead className="text-right w-[100px]">Actions</TableHead>
+                <TableHead className="w-[150px]">Čas</TableHead>
+                <TableHead>Událost</TableHead>
+                <TableHead className="text-right w-[100px]">Akce</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -100,9 +99,7 @@ export default async function SchedulePage() {
                   <TableCell className="font-medium whitespace-nowrap">
                     {formatTime(item.time)}
                   </TableCell>
-                  <TableCell className="font-medium">
-                    {item.event}
-                  </TableCell>
+                  <TableCell className="font-medium">{item.event}</TableCell>
                   <TableCell className="text-right whitespace-nowrap">
                     <div className="flex items-center justify-end relative z-10">
                       <ScheduleActions scheduleItem={item} />

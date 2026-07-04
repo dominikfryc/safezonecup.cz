@@ -58,12 +58,12 @@ export default async function MatchDetailPage({ params }: { params: { id: string
         <Button variant="ghost" size="sm" className="mb-4 -ml-3" asChild>
           <Link href="/admin/matches">
             <ArrowLeft className="mr-2 size-4" />
-            Back to Matches
+            Zpět na zápasy
           </Link>
         </Button>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Match Details</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Detaily zápasu</h1>
             <div className="flex items-center gap-2 mt-2">
               <Badge variant="secondary" className="uppercase tracking-wider text-[10px]">
                 {match.stage.replace('_', ' ')}
@@ -128,18 +128,18 @@ export default async function MatchDetailPage({ params }: { params: { id: string
               <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
                 <Goal className="size-10 text-muted-foreground" />
               </div>
-              <h2 className="mt-6 text-xl font-semibold">No goals yet</h2>
+              <h2 className="mt-6 text-xl font-semibold">Zatím žádné góly</h2>
               <p className="mt-2 text-center text-sm font-normal leading-tight text-muted-foreground max-w-sm">
-                Add the first goal of the match.
+                Přidejte první gól zápasu.
               </p>
             </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="whitespace-nowrap">Player</TableHead>
-                  <TableHead className="whitespace-nowrap">Team</TableHead>
-                  <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
+                  <TableHead className="whitespace-nowrap">Hráč</TableHead>
+                  <TableHead className="whitespace-nowrap">Tým</TableHead>
+                  <TableHead className="text-right whitespace-nowrap">Akce</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -150,7 +150,7 @@ export default async function MatchDetailPage({ params }: { params: { id: string
                   return (
                     <TableRow key={goal.id} className="relative group">
                       <TableCell className="font-medium whitespace-nowrap">
-                        {goal.player?.name || 'Unknown Player'}
+                        {goal.player?.name || 'Neznámý hráč'}
                       </TableCell>
                       <TableCell className="whitespace-nowrap text-muted-foreground">
                         {goal.team?.name}

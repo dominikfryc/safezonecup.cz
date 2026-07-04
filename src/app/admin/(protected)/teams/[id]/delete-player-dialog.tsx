@@ -1,27 +1,49 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { Trash2 } from 'lucide-react'
-import { removePlayer } from './actions'
-import { toast } from 'sonner'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import { useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Trash2 } from 'lucide-react';
+import { removePlayer } from './actions';
+import { toast } from 'sonner';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
-export function DeletePlayerDialog({ player, teamId, asDropdownItem, open, onOpenChange }: { player: { id: string, name: string }, teamId: string, asDropdownItem?: boolean, open?: boolean, onOpenChange?: (open: boolean) => void }) {
-  const [internalOpen, setInternalOpen] = useState(false)
-  
-  const isControlled = open !== undefined
-  const isOpen = isControlled ? open : internalOpen
-  const setIsOpen = isControlled ? onOpenChange! : setInternalOpen
+export function DeletePlayerDialog({
+  player,
+  teamId,
+  asDropdownItem,
+  open,
+  onOpenChange,
+}: {
+  player: { id: string; name: string };
+  teamId: string;
+  asDropdownItem?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}) {
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  const isControlled = open !== undefined;
+  const isOpen = isControlled ? open : internalOpen;
+  const setIsOpen = isControlled ? onOpenChange! : setInternalOpen;
 
   async function action(formData: FormData) {
     try {
-      await removePlayer(formData)
-      toast.success('Player removed successfully')
-      setIsOpen(false)
+      await removePlayer(formData);
+      toast.success('Hráč byl úspěšně odstraněn');
+      setIsOpen(false);
     } catch {
-      toast.error('Failed to remove player')
+      toast.error('Při odstraňování hráče došlo k chybě');
     }
   }
 
@@ -32,32 +54,39 @@ export function DeletePlayerDialog({ player, teamId, asDropdownItem, open, onOpe
           {asDropdownItem ? (
             <DropdownMenuItem onSelect={(e) => e.preventDefault()} variant="destructive">
               <Trash2 className="mr-2 size-4" />
-              Delete
+              Smazat
             </DropdownMenuItem>
           ) : (
-            <Button variant="outline" size="sm" className="text-destructive hover:text-destructive gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-destructive hover:text-destructive gap-2"
+            >
               <Trash2 className="size-3.5" />
-              Delete
+              Smazat
             </Button>
           )}
         </AlertDialogTrigger>
       )}
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-2xl font-bold mb-2">Remove Player?</AlertDialogTitle>
+          <AlertDialogTitle className="text-2xl font-bold mb-2">Odstranit hráče?</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to remove <strong>{player.name}</strong> from the roster? This cannot be undone.
+            Opravdu chcete odstranit hráče <strong>{player.name}</strong> ze soupisky? Tuto akci
+            nelze vrátit.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>Zrušit</AlertDialogCancel>
           <form action={action} className="m-0">
             <input type="hidden" name="id" value={player.id} />
             <input type="hidden" name="team_id" value={teamId} />
-            <AlertDialogAction type="submit" variant="destructive" className="w-full sm:w-auto m-0">Remove Player</AlertDialogAction>
+            <AlertDialogAction type="submit" variant="destructive" className="w-full sm:w-auto m-0">
+              Odstranit hráče
+            </AlertDialogAction>
           </form>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

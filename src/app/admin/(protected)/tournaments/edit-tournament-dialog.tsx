@@ -37,10 +37,10 @@ export function EditTournamentDialog({
   async function action(formData: FormData) {
     try {
       await editTournament(formData);
-      toast.success('Tournament updated successfully');
+      toast.success('Turnaj byl úspěšně upraven');
       setIsOpen(false);
     } catch {
-      toast.error('Failed to update tournament');
+      toast.error('Při úpravě turnaje došlo k chybě');
     }
   }
 
@@ -51,35 +51,35 @@ export function EditTournamentDialog({
           {asDropdownItem ? (
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               <Pencil className="mr-2 size-4" />
-              Edit
+              Upravit
             </DropdownMenuItem>
           ) : (
             <Button variant="outline" size="sm" className="gap-2">
               <Pencil className="size-3" />
-              Edit
+              Upravit
             </Button>
           )}
         </DialogTrigger>
       )}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Edit Tournament</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Upravit turnaj</DialogTitle>
         </DialogHeader>
         <form action={action} className="text-left" key={isOpen ? 'open' : 'closed'}>
           <input type="hidden" name="id" value={tournament.id} />
           <FieldGroup className="mb-4 gap-4">
             <Field>
-              <FieldLabel>Name</FieldLabel>
+              <FieldLabel>Název</FieldLabel>
               <Input name="name" type="text" required defaultValue={tournament.name} />
             </Field>
             <Field>
-              <FieldLabel>Location</FieldLabel>
+              <FieldLabel>Místo konání</FieldLabel>
               <Input name="location" defaultValue={tournament.location || ''} />
             </Field>
           </FieldGroup>
           <FieldGroup className="mb-8 gap-4">
             <Field>
-              <FieldLabel>Number of Teams</FieldLabel>
+              <FieldLabel>Počet týmů</FieldLabel>
               <Input
                 name="number_of_teams"
                 type="number"
@@ -89,7 +89,7 @@ export function EditTournamentDialog({
               />
             </Field>
             <Field>
-              <FieldLabel>Number of Groups</FieldLabel>
+              <FieldLabel>Počet skupin</FieldLabel>
               <Input
                 name="number_of_groups"
                 type="number"
@@ -99,7 +99,7 @@ export function EditTournamentDialog({
               />
             </Field>
             <Field>
-              <FieldLabel>Number of Fields</FieldLabel>
+              <FieldLabel>Počet hřišť</FieldLabel>
               <Input
                 name="number_of_fields"
                 type="number"
@@ -111,7 +111,7 @@ export function EditTournamentDialog({
           </FieldGroup>
 
           <Button type="submit" className="w-full">
-            Save Changes
+            Uložit změny
           </Button>
         </form>
       </DialogContent>

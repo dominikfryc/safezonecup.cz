@@ -21,10 +21,10 @@ export function CreateTournamentDialog() {
   async function action(formData: FormData) {
     try {
       await createTournament(formData);
-      toast.success('Tournament created successfully');
+      toast.success('Turnaj byl úspěšně vytvořen');
       setOpen(false);
     } catch {
-      toast.error('Failed to create tournament');
+      toast.error('Při vytváření turnaje došlo k chybě');
     }
   }
 
@@ -33,41 +33,41 @@ export function CreateTournamentDialog() {
       <DialogTrigger asChild>
         <Button className="gap-2">
           <Plus className="size-4" />
-          Create Tournament
+          Vytvořit turnaj
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Create Tournament</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Vytvořit turnaj</DialogTitle>
         </DialogHeader>
         <form action={action} key={open ? 'open' : 'closed'}>
           <FieldGroup className="mb-4 gap-4">
             <Field>
-              <FieldLabel>Name</FieldLabel>
+              <FieldLabel>Název</FieldLabel>
               <Input name="name" type="text" required />
             </Field>
             <Field>
-              <FieldLabel>Location</FieldLabel>
+              <FieldLabel>Místo konání</FieldLabel>
               <Input name="location" />
             </Field>
           </FieldGroup>
           <FieldGroup className="mb-8 gap-4">
             <Field>
-              <FieldLabel>Number of Teams</FieldLabel>
+              <FieldLabel>Počet týmů</FieldLabel>
               <Input name="number_of_teams" type="number" required min={2} />
             </Field>
             <Field>
-              <FieldLabel>Number of Groups</FieldLabel>
+              <FieldLabel>Počet skupin</FieldLabel>
               <Input name="number_of_groups" type="number" required min={1} />
             </Field>
             <Field>
-              <FieldLabel>Number of Fields</FieldLabel>
+              <FieldLabel>Počet hřišť</FieldLabel>
               <Input name="number_of_fields" type="number" required min={1} />
             </Field>
           </FieldGroup>
 
           <Button type="submit" className="w-full">
-            Create Tournament
+            Vytvořit turnaj
           </Button>
         </form>
       </DialogContent>

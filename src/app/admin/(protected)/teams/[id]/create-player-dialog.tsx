@@ -1,24 +1,36 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { FieldGroup, Field, FieldLabel } from '@/components/ui/field'
-import { Plus } from 'lucide-react'
-import { addPlayer } from './actions'
-import { toast } from 'sonner'
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { FieldGroup, Field, FieldLabel } from '@/components/ui/field';
+import { Plus } from 'lucide-react';
+import { addPlayer } from './actions';
+import { toast } from 'sonner';
 
-export function CreatePlayerDialog({ teamId, tournamentId }: { teamId: string, tournamentId: string }) {
-  const [open, setOpen] = useState(false)
+export function CreatePlayerDialog({
+  teamId,
+  tournamentId,
+}: {
+  teamId: string;
+  tournamentId: string;
+}) {
+  const [open, setOpen] = useState(false);
 
   async function action(formData: FormData) {
     try {
-      await addPlayer(formData)
-      toast.success('Player added successfully')
-      setOpen(false)
+      await addPlayer(formData);
+      toast.success('Hráč byl úspěšně přidán');
+      setOpen(false);
     } catch {
-      toast.error('Failed to add player')
+      toast.error('Při přidávání hráče došlo k chybě');
     }
   }
 
@@ -27,32 +39,27 @@ export function CreatePlayerDialog({ teamId, tournamentId }: { teamId: string, t
       <DialogTrigger asChild>
         <Button className="gap-2">
           <Plus className="size-4" />
-          Add Player
+          Přidat hráče
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Add Player</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Přidat hráče</DialogTitle>
         </DialogHeader>
         <form action={action} key={open ? 'open' : 'closed'}>
           <input type="hidden" name="tournament_id" value={tournamentId} />
           <input type="hidden" name="team_id" value={teamId} />
           <FieldGroup className="mb-8 gap-4">
             <Field>
-              <FieldLabel>Player Name</FieldLabel>
-              <Input 
-                name="name" 
-                required 
-                placeholder="e.g. John Doe"
-                autoComplete="off"
-              />
+              <FieldLabel>Jméno hráče</FieldLabel>
+              <Input name="name" required placeholder="např. Jan Novák" autoComplete="off" />
             </Field>
           </FieldGroup>
           <Button type="submit" className="w-full">
-            Add to Roster
+            Přidat hráče
           </Button>
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

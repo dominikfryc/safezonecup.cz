@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import * as React from "react"
-import { ChevronsUpDown, TrophyIcon, ArrowRight } from "lucide-react"
+import Link from 'next/link';
+import * as React from 'react';
+import { ChevronsUpDown, TrophyIcon, ArrowRight } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -11,32 +11,32 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { setAdminTournamentCookie } from "@/app/admin/actions"
+} from '@/components/ui/sidebar';
+import { setAdminTournamentCookie } from '@/app/admin/actions';
 
-import { useRouter } from "next/navigation"
+import { useRouter } from 'next/navigation';
 
 export function TournamentSwitcher({
   tournaments,
   activeTournamentId,
 }: {
   tournaments: {
-    id: string
-    name: string
-    location: string | null
-    is_active: boolean
-  }[]
-  activeTournamentId: string
+    id: string;
+    name: string;
+    location: string | null;
+    is_active: boolean;
+  }[];
+  activeTournamentId: string;
 }) {
-  const router = useRouter()
-  const { isMobile } = useSidebar()
-  const activeTournament = tournaments.find((t) => t.id === activeTournamentId) || tournaments[0]
+  const router = useRouter();
+  const { isMobile } = useSidebar();
+  const activeTournament = tournaments.find((t) => t.id === activeTournamentId) || tournaments[0];
 
   return (
     <SidebarMenu>
@@ -51,11 +51,9 @@ export function TournamentSwitcher({
                 <TrophyIcon className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">
-                  {activeTournament?.name}
-                </span>
+                <span className="truncate font-semibold">{activeTournament?.name}</span>
                 <span className="truncate text-xs">
-                  {activeTournament?.location || 'No location'}
+                  {activeTournament?.location || 'Bez lokace'}
                 </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -64,22 +62,21 @@ export function TournamentSwitcher({
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             align="start"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? 'bottom' : 'right'}
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-xs text-muted-foreground">
-              Select Tournament
+              Vybrat turnaj
             </DropdownMenuLabel>
             {tournaments.map((tournament) => (
               <DropdownMenuItem
                 key={tournament.id}
                 onClick={async () => {
-                  await setAdminTournamentCookie(tournament.id)
-                  router.push('/admin')
+                  await setAdminTournamentCookie(tournament.id);
+                  router.push('/admin');
                 }}
                 className="gap-2 p-2 cursor-pointer"
               >
-
                 <div className="flex items-center gap-1.5">
                   <span className="font-semibold">{tournament.name}</span>
                 </div>
@@ -89,12 +86,12 @@ export function TournamentSwitcher({
             <DropdownMenuItem className="gap-2 p-2 cursor-pointer" asChild>
               <Link href="/admin/tournaments" className="flex items-center gap-3">
                 <ArrowRight className="size-4 text-muted-foreground" />
-                <div className="font-medium text-muted-foreground">Manage Tournaments</div>
+                <div className="font-medium text-muted-foreground">Spravovat turnaje</div>
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

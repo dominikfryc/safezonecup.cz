@@ -45,10 +45,10 @@ export function AddGoalDialog({
   async function action(formData: FormData) {
     try {
       await addGoal(formData);
-      toast.success('Goal added successfully');
+      toast.success('Gól byl úspěšně přidán');
       setOpen(false);
     } catch {
-      toast.error('Failed to add goal');
+      toast.error('Při přidávání gólu došlo k chybě');
     }
   }
 
@@ -57,22 +57,22 @@ export function AddGoalDialog({
       <DialogTrigger asChild>
         <Button className="gap-2">
           <Plus className="size-4" />
-          Add Goal
+          Přidat gól
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Add Goal</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Přidat gól</DialogTitle>
         </DialogHeader>
         <form action={action} className="flex flex-col gap-4" key={open ? 'open' : 'closed'}>
           <input type="hidden" name="match_id" value={matchId} />
 
           <FieldGroup>
             <Field>
-              <FieldLabel>Team</FieldLabel>
+              <FieldLabel>Tým</FieldLabel>
               <Select name="team_id" required value={selectedTeam} onValueChange={setSelectedTeam}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select team..." />
+                  <SelectValue placeholder="Vyberte tým..." />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -84,10 +84,10 @@ export function AddGoalDialog({
             </Field>
 
             <Field>
-              <FieldLabel>Player</FieldLabel>
+              <FieldLabel>Hráč</FieldLabel>
               <Select name="player_id" required disabled={!selectedTeam}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select player..." />
+                  <SelectValue placeholder="Vyberte hráče..." />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -103,7 +103,7 @@ export function AddGoalDialog({
           </FieldGroup>
 
           <Button type="submit" className="w-full mt-2">
-            Add Goal
+            Přidat gól
           </Button>
         </form>
       </DialogContent>

@@ -1,48 +1,61 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { FieldGroup, Field, FieldLabel } from '@/components/ui/field'
-import { editTeam } from './actions'
-import { toast } from 'sonner'
-import { Pencil } from 'lucide-react'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { FieldGroup, Field, FieldLabel } from '@/components/ui/field';
+import { editTeam } from './actions';
+import { toast } from 'sonner';
+import { Pencil } from 'lucide-react';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
-import { Team } from '@/lib/types'
+import { Team } from '@/lib/types';
 
-export function EditTeamDialog({ 
-  team, 
-  availableGroups, 
-  groupCounts, 
+export function EditTeamDialog({
+  team,
+  availableGroups,
+  groupCounts,
   maxTeamsPerGroup,
   asDropdownItem,
   open,
-  onOpenChange
-}: { 
-  team: Team, 
-  availableGroups: string[], 
-  groupCounts: Record<string, number>, 
-  maxTeamsPerGroup: number,
-  asDropdownItem?: boolean,
-  open?: boolean,
-  onOpenChange?: (open: boolean) => void
+  onOpenChange,
+}: {
+  team: Team;
+  availableGroups: string[];
+  groupCounts: Record<string, number>;
+  maxTeamsPerGroup: number;
+  asDropdownItem?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) {
-  const [internalOpen, setInternalOpen] = useState(false)
-  
-  const isControlled = open !== undefined
-  const isOpen = isControlled ? open : internalOpen
-  const setIsOpen = isControlled ? onOpenChange! : setInternalOpen
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  const isControlled = open !== undefined;
+  const isOpen = isControlled ? open : internalOpen;
+  const setIsOpen = isControlled ? onOpenChange! : setInternalOpen;
 
   async function action(formData: FormData) {
     try {
-      await editTeam(formData)
-      toast.success('Team updated successfully')
-      setIsOpen(false)
+      await editTeam(formData);
+      toast.success('Tým byl úspěšně upraven');
+      setIsOpen(false);
     } catch {
-      toast.error('Failed to update team')
+      toast.error('Při úpravě týmu došlo k chybě');
     }
   }
 
@@ -65,34 +78,34 @@ export function EditTeamDialog({
       )}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Edit Team</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Upravit tým</DialogTitle>
         </DialogHeader>
         <form action={action} className="text-left" key={isOpen ? 'open' : 'closed'}>
           <input type="hidden" name="id" value={team.id} />
           <FieldGroup className="mb-4 gap-4">
             <Field>
-              <FieldLabel>Team Name</FieldLabel>
+              <FieldLabel>Název týmu</FieldLabel>
               <Input name="name" defaultValue={team.name} required />
             </Field>
           </FieldGroup>
           <FieldGroup className="mb-8 gap-4">
             <Field>
-              <FieldLabel>Group</FieldLabel>
-              <Select name="group" defaultValue={team.group || "Unassigned"}>
+              <FieldLabel>Skupina</FieldLabel>
+              <Select name="group" defaultValue={team.group || 'Unassigned'}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Unassigned" />
+                  <SelectValue placeholder="Nepřiřazeno" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="Unassigned">Unassigned</SelectItem>
-                    {availableGroups.map(group => {
+                    <SelectItem value="Unassigned">Nepřiřazeno</SelectItem>
+                    {availableGroups.map((group) => {
                       const count = groupCounts[group] || 0;
                       const isFull = count >= maxTeamsPerGroup && team.group !== group;
                       return (
                         <SelectItem key={group} value={group} disabled={isFull}>
-                          Group {group}
+                          Skupina {group}
                         </SelectItem>
-                      )
+                      );
                     })}
                   </SelectGroup>
                 </SelectContent>
@@ -100,10 +113,10 @@ export function EditTeamDialog({
             </Field>
           </FieldGroup>
           <Button type="submit" className="w-full">
-            Save Changes
+            Uložit změny
           </Button>
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

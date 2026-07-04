@@ -12,22 +12,22 @@ import { LayoutDashboardIcon, UsersIcon, TrophyIcon, CalendarIcon } from 'lucide
 const data = {
   navMain: [
     {
-      title: 'Dashboard',
+      title: 'Přehled',
       url: '/admin',
       icon: <LayoutDashboardIcon />,
     },
     {
-      title: 'Teams',
+      title: 'Týmy',
       url: '/admin/teams',
       icon: <UsersIcon />,
     },
     {
-      title: 'Matches',
+      title: 'Zápasy',
       url: '/admin/matches',
       icon: <TrophyIcon />,
     },
     {
-      title: 'Schedule',
+      title: 'Harmonogram',
       url: '/admin/schedule',
       icon: <CalendarIcon />,
     },

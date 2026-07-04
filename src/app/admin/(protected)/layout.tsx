@@ -1,53 +1,51 @@
-import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
-import Link from 'next/link'
-import { ExternalLink } from 'lucide-react'
+import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import Link from 'next/link';
+import { ExternalLink } from 'lucide-react';
 
-import { AppSidebar } from "@/components/app-sidebar"
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
+import { AppSidebar } from '@/components/app-sidebar';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 
-import { AdminBreadcrumbs } from '@/components/admin-breadcrumbs'
+import { AdminBreadcrumbs } from '@/components/admin-breadcrumbs';
 
-export default async function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/admin/login')
+    redirect('/admin/login');
   }
 
   // Fetch all tournaments for the tenant switcher
   const { data: tournaments } = await supabase
     .from('tournaments')
     .select('*')
-    .order('name', { ascending: false })
+    .order('name', { ascending: false });
 
-  const cookieStore = await cookies()
-  const cookieTournamentId = cookieStore.get('admin_tournament_id')?.value
-  
+  const cookieStore = await cookies();
+  const cookieTournamentId = cookieStore.get('admin_tournament_id')?.value;
+
   // Default to globally active tournament if cookie is missing
-  const activeGlobally = tournaments?.find(t => t.is_active)
-  const activeTournamentId = cookieTournamentId || activeGlobally?.id || ""
+  const activeGlobally = tournaments?.find((t) => t.is_active);
+  const activeTournamentId = cookieTournamentId || activeGlobally?.id || '';
 
   return (
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "17rem",
-          "--header-height": "3.5rem",
+          '--sidebar-width': '17rem',
+          '--header-height': '3.5rem',
         } as React.CSSProperties
       }
     >
-      <AppSidebar 
-        email={user.email ?? "admin@example.com"} 
-        userName={user.user_metadata?.display_name || "Admin"}
+      <AppSidebar
+        email={user.email ?? 'admin@example.com'}
+        userName={user.user_metadata?.display_name || 'Admin'}
         tournaments={tournaments || []}
         activeTournamentId={activeTournamentId}
       />
@@ -65,7 +63,7 @@ export default async function AdminLayout({
             <Button asChild variant="outline" size="sm">
               <Link href="/" target="_blank">
                 <ExternalLink className="size-4 mr-2" />
-                Public Site
+                Veřejný web
               </Link>
             </Button>
           </div>
@@ -75,5 +73,5 @@ export default async function AdminLayout({
         </main>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

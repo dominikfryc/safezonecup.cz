@@ -40,12 +40,12 @@ export default async function TeamsPage() {
   if (!activeTournament) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-bold mb-2">No Active Tournament</h2>
+        <h2 className="text-2xl font-bold mb-2">Žádný aktivní turnaj</h2>
         <p className="text-muted-foreground mb-6">
-          Please create or activate a tournament on the dashboard first.
+          Nejprve prosím vytvořte nebo aktivujte turnaj na přehledu.
         </p>
         <Button asChild>
-          <Link href="/admin">Go to Dashboard</Link>
+          <Link href="/admin">Zpět na přehled</Link>
         </Button>
       </div>
     );
@@ -95,13 +95,15 @@ export default async function TeamsPage() {
     {} as Record<string, number>,
   );
 
-  const availableGroups = Array.from({ length: activeTournament.number_of_groups }, (_, i) => String(i + 1));
+  const availableGroups = Array.from({ length: activeTournament.number_of_groups }, (_, i) =>
+    String(i + 1),
+  );
 
   return (
     <div className="flex flex-col gap-6 pt-2">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Teams</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Týmy</h1>
         </div>
 
         {sortedTeams.length > 0 && !isMaxTeamsReached && (
@@ -121,10 +123,10 @@ export default async function TeamsPage() {
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
               <Users className="size-10 text-muted-foreground" />
             </div>
-            <h2 className="mt-6 text-xl font-semibold">No teams registered</h2>
+            <h2 className="mt-6 text-xl font-semibold">Žádné registrované týmy</h2>
             <p className="mt-2 text-center text-sm font-normal leading-tight text-muted-foreground max-w-sm mb-6">
-              You haven&apos;t added any teams to this tournament yet. Add teams to begin
-              organizing.
+              Zatím jste do tohoto turnaje nepřidali žádné týmy. Přidejte týmy a začněte turnaj
+              organizovat.
             </p>
             {!isMaxTeamsReached && (
               <CreateTeamDialog
@@ -140,11 +142,11 @@ export default async function TeamsPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="whitespace-nowrap">Team Name</TableHead>
-                <TableHead className="whitespace-nowrap">Group</TableHead>
-                <TableHead className="whitespace-nowrap">Points</TableHead>
-                <TableHead className="whitespace-nowrap">Players</TableHead>
-                <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
+                <TableHead className="whitespace-nowrap">Tým</TableHead>
+                <TableHead className="whitespace-nowrap">Skupina</TableHead>
+                <TableHead className="whitespace-nowrap">Body</TableHead>
+                <TableHead className="whitespace-nowrap">Hráči</TableHead>
+                <TableHead className="text-right whitespace-nowrap">Akce</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -153,19 +155,17 @@ export default async function TeamsPage() {
                   <TableCell className="font-medium whitespace-nowrap">
                     {team.name}
                     <Link href={`/admin/teams/${team.id}`} className="absolute inset-0 z-0">
-                      <span className="sr-only">View {team.name}</span>
+                      <span className="sr-only">Zobrazit {team.name}</span>
                     </Link>
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
                     {team.group ? (
                       <span className="font-medium">{team.group}</span>
                     ) : (
-                      <span className="text-muted-foreground italic text-xs">Unassigned</span>
+                      <span className="text-muted-foreground italic text-xs">Nepřiřazeno</span>
                     )}
                   </TableCell>
-                  <TableCell className="font-medium whitespace-nowrap">
-                    {team.points}
-                  </TableCell>
+                  <TableCell className="font-medium whitespace-nowrap">{team.points}</TableCell>
                   <TableCell className="font-medium whitespace-nowrap">
                     {team.players?.length || 0}
                   </TableCell>
