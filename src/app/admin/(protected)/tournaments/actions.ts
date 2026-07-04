@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache'
 export async function createTournament(formData: FormData) {
   const supabase = await createClient()
   
-  const year = parseInt(formData.get('year') as string)
+  const name = formData.get('name') as string
   const location = formData.get('location') as string
   const number_of_groups = parseInt(formData.get('number_of_groups') as string)
   const number_of_teams = parseInt(formData.get('number_of_teams') as string)
@@ -16,7 +16,7 @@ export async function createTournament(formData: FormData) {
   await supabase.from('tournaments').update({ is_active: false }).neq('id', '00000000-0000-0000-0000-000000000000')
 
   const { error } = await supabase.from('tournaments').insert({
-    year,
+    name,
     location: location || null,
     number_of_groups,
     number_of_fields,
@@ -48,14 +48,14 @@ export async function editTournament(formData: FormData) {
   const supabase = await createClient()
   
   const id = formData.get('id') as string
-  const year = parseInt(formData.get('year') as string)
+  const name = formData.get('name') as string
   const location = formData.get('location') as string
   const number_of_groups = parseInt(formData.get('number_of_groups') as string)
   const number_of_teams = parseInt(formData.get('number_of_teams') as string)
   const number_of_fields = parseInt(formData.get('number_of_fields') as string) || 1
   
   const { error } = await supabase.from('tournaments').update({
-    year,
+    name,
     location: location || null,
     number_of_groups,
     number_of_fields,

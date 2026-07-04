@@ -28,7 +28,7 @@ export function TournamentSwitcher({
 }: {
   tournaments: {
     id: string
-    year: number
+    name: string
     location: string | null
     is_active: boolean
   }[]
@@ -52,7 +52,7 @@ export function TournamentSwitcher({
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">
-                  SAFEZONE CUP {activeTournament?.year}
+                  {activeTournament?.name}
                 </span>
                 <span className="truncate text-xs">
                   {activeTournament?.location || 'No location'}
@@ -81,7 +81,7 @@ export function TournamentSwitcher({
               >
 
                 <div className="flex items-center gap-1.5">
-                  <span className="font-semibold">SAFEZONE CUP {tournament.year}</span>
+                  <span className="font-semibold">{tournament.name}</span>
                 </div>
               </DropdownMenuItem>
             ))}

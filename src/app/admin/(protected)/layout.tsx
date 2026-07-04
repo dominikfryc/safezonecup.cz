@@ -27,7 +27,7 @@ export default async function AdminLayout({
   const { data: tournaments } = await supabase
     .from('tournaments')
     .select('*')
-    .order('year', { ascending: false })
+    .order('name', { ascending: false })
 
   const cookieStore = await cookies()
   const cookieTournamentId = cookieStore.get('admin_tournament_id')?.value

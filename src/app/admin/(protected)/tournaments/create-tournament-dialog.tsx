@@ -1,24 +1,30 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { FieldGroup, Field, FieldLabel } from '@/components/ui/field'
-import { Plus } from 'lucide-react'
-import { createTournament } from './actions'
-import { toast } from 'sonner'
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { FieldGroup, Field, FieldLabel } from '@/components/ui/field';
+import { Plus } from 'lucide-react';
+import { createTournament } from './actions';
+import { toast } from 'sonner';
 
 export function CreateTournamentDialog() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   async function action(formData: FormData) {
     try {
-      await createTournament(formData)
-      toast.success('Tournament created successfully')
-      setOpen(false)
+      await createTournament(formData);
+      toast.success('Tournament created successfully');
+      setOpen(false);
     } catch {
-      toast.error('Failed to create tournament')
+      toast.error('Failed to create tournament');
     }
   }
 
@@ -37,8 +43,8 @@ export function CreateTournamentDialog() {
         <form action={action} key={open ? 'open' : 'closed'}>
           <FieldGroup className="mb-4 gap-4">
             <Field>
-              <FieldLabel>Year</FieldLabel>
-              <Input name="year" type="number" required />
+              <FieldLabel>Name</FieldLabel>
+              <Input name="name" type="text" required />
             </Field>
             <Field>
               <FieldLabel>Location</FieldLabel>
@@ -56,15 +62,15 @@ export function CreateTournamentDialog() {
             </Field>
             <Field>
               <FieldLabel>Number of Fields</FieldLabel>
-              <Input name="number_of_fields" type="number" required min={1} defaultValue={1} />
+              <Input name="number_of_fields" type="number" required min={1} />
             </Field>
           </FieldGroup>
-          
+
           <Button type="submit" className="w-full">
             Create Tournament
           </Button>
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

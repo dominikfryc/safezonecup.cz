@@ -10,7 +10,7 @@ export default async function AdminDashboard() {
   const { data: tournaments } = await supabase
     .from('tournaments')
     .select('*')
-    .order('year', { ascending: false })
+    .order('name', { ascending: false })
 
 
 
@@ -40,9 +40,9 @@ export default async function AdminDashboard() {
                   <TableBody>
                     {tournaments?.map((tournament) => (
                       <TableRow key={tournament.id} data-state={tournament.is_active ? 'selected' : undefined}>
-                        <TableCell className="font-medium whitespace-nowrap">SAFEZONE CUP {tournament.year}</TableCell>
+                        <TableCell className="font-medium whitespace-nowrap">{tournament.name}</TableCell>
                         <TableCell className="whitespace-nowrap">{tournament.location || '-'}</TableCell>
-                        <TableCell className="whitespace-nowrap">{tournament.number_of_teams} Teams / {tournament.number_of_groups} Groups</TableCell>
+                        <TableCell className="whitespace-nowrap">{tournament.number_of_teams} Teams / {tournament.number_of_groups} Groups / {tournament.number_of_fields} Fields</TableCell>
                         <TableCell className="whitespace-nowrap">
                           {tournament.is_active ? (
                             <Badge variant="default" className="gap-1 pointer-events-none">

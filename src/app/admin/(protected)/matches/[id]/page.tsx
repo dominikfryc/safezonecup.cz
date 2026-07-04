@@ -43,12 +43,14 @@ export default async function MatchDetailPage({ params }: { params: { id: string
   const { data: homePlayers } = await supabase
     .from('players')
     .select('*')
-    .eq('team_id', match.home_team_id);
+    .eq('team_id', match.home_team_id)
+    .order('name');
 
   const { data: awayPlayers } = await supabase
     .from('players')
     .select('*')
-    .eq('team_id', match.away_team_id);
+    .eq('team_id', match.away_team_id)
+    .order('name');
 
   return (
     <div className="flex flex-col gap-6 pt-2">
