@@ -47,9 +47,9 @@ export function EditTournamentDialog({ tournament, asDropdownItem, open, onOpenC
       )}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-black">Edit Tournament</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Edit Tournament</DialogTitle>
         </DialogHeader>
-        <form action={action} className="text-left">
+        <form action={action} className="text-left" key={isOpen ? 'open' : 'closed'}>
           <input type="hidden" name="id" value={tournament.id} />
           <FieldGroup className="mb-4 gap-4">
             <Field>
@@ -69,6 +69,10 @@ export function EditTournamentDialog({ tournament, asDropdownItem, open, onOpenC
             <Field>
               <FieldLabel>Number of Groups</FieldLabel>
               <Input name="number_of_groups" type="number" required defaultValue={tournament.number_of_groups} min={1} />
+            </Field>
+            <Field>
+              <FieldLabel>Number of Fields</FieldLabel>
+              <Input name="number_of_fields" type="number" required defaultValue={tournament.number_of_fields || 1} min={1} />
             </Field>
           </FieldGroup>
           

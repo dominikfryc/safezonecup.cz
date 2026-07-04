@@ -48,7 +48,7 @@ export function DeleteTeamDialog({ team, asDropdownItem, open, onOpenChange }: {
       )}
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-2xl font-black mb-2">Remove Team?</AlertDialogTitle>
+          <AlertDialogTitle className="text-2xl font-bold mb-2">Remove Team?</AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to remove <strong>{team.name}</strong> from the tournament? This cannot be undone.
           </AlertDialogDescription>

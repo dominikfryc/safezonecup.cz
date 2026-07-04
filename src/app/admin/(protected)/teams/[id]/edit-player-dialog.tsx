@@ -48,9 +48,9 @@ export function EditPlayerDialog({ player, teamId, asDropdownItem, open, onOpenC
       )}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-black">Edit Player</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Edit Player</DialogTitle>
         </DialogHeader>
-        <form action={action} className="text-left">
+        <form action={action} className="text-left" key={isOpen ? 'open' : 'closed'}>
           <input type="hidden" name="id" value={player.id} />
           <input type="hidden" name="team_id" value={teamId} />
           <FieldGroup className="mb-8 gap-4">

@@ -32,9 +32,9 @@ export function CreateTournamentDialog() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-black">Create Tournament</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Create Tournament</DialogTitle>
         </DialogHeader>
-        <form action={action}>
+        <form action={action} key={open ? 'open' : 'closed'}>
           <FieldGroup className="mb-4 gap-4">
             <Field>
               <FieldLabel>Year</FieldLabel>
@@ -53,6 +53,10 @@ export function CreateTournamentDialog() {
             <Field>
               <FieldLabel>Number of Groups</FieldLabel>
               <Input name="number_of_groups" type="number" required min={1} />
+            </Field>
+            <Field>
+              <FieldLabel>Number of Fields</FieldLabel>
+              <Input name="number_of_fields" type="number" required min={1} defaultValue={1} />
             </Field>
           </FieldGroup>
           

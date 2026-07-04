@@ -1,20 +1,21 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-import { cn } from "@/lib/utils";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { Toaster } from "@/components/ui/sonner";
+import type { Metadata } from 'next';
+import localFont from 'next/font/local';
+import './globals.css';
+import { cn } from '@/lib/utils';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { Toaster } from '@/components/ui/sonner';
+import { Analytics } from '@vercel/analytics/next';
 
 const satoshi = localFont({
-  src: "../fonts/Satoshi-Variable.woff2",
-  variable: "--font-sans",
-  display: "swap",
-  weight: "300 900",
+  src: '../fonts/Satoshi-Variable.woff2',
+  variable: '--font-sans',
+  display: 'swap',
+  weight: '300 900',
 });
 
 export const metadata: Metadata = {
-  title: "SAFEZONE CUP",
-  description: "Official Tournament Dashboard",
+  title: 'SAFEZONE CUP',
+  description: 'Official Tournament Dashboard',
 };
 
 export default function RootLayout({
@@ -25,14 +26,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full antialiased font-sans", satoshi.variable)}
-      style={{ scrollbarGutter: "stable" }}
+      className={cn('h-full antialiased font-sans', satoshi.variable)}
+      style={{ scrollbarGutter: 'stable' }}
     >
       <body className="min-h-full flex flex-col">
-        <TooltipProvider>
-          {children}
-        </TooltipProvider>
+        <TooltipProvider>{children}</TooltipProvider>
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );

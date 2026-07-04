@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { sortTeams } from '@/lib/standings'
 
 type TeamStats = {
   id: string
@@ -84,11 +85,7 @@ export default function StandingsTable({ tournamentId }: { tournamentId: string 
         }
       })
 
-      const sorted = Object.values(stats).sort((a: TeamStats, b: TeamStats) => {
-        if (b.pts !== a.pts) return b.pts - a.pts
-        if (b.gd !== a.gd) return b.gd - a.gd
-        return b.gs - a.gs
-      })
+      const sorted = sortTeams(Object.values(stats))
 
       setStandings(sorted)
       if (tournament) {
@@ -112,8 +109,7 @@ export default function StandingsTable({ tournamentId }: { tournamentId: string 
   }, [tournamentId, supabase])
 
   // Group the standings by group_name for display
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  const availableGroups = alphabet.slice(0, tournamentGroupsCount).split('')
+  const availableGroups = Array.from({ length: tournamentGroupsCount }, (_, i) => String(i + 1))
   
   const groups = availableGroups.reduce((acc: Record<string, TeamStats[]>, groupName) => {
     acc[groupName] = standings.filter(s => s.group === groupName)

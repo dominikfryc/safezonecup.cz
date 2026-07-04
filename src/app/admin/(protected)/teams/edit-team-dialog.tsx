@@ -65,9 +65,9 @@ export function EditTeamDialog({
       )}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-black">Edit Team</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Edit Team</DialogTitle>
         </DialogHeader>
-        <form action={action} className="text-left">
+        <form action={action} className="text-left" key={isOpen ? 'open' : 'closed'}>
           <input type="hidden" name="id" value={team.id} />
           <FieldGroup className="mb-4 gap-4">
             <Field>
@@ -90,7 +90,7 @@ export function EditTeamDialog({
                       const isFull = count >= maxTeamsPerGroup && team.group !== group;
                       return (
                         <SelectItem key={group} value={group} disabled={isFull}>
-                          {group}
+                          Group {group}
                         </SelectItem>
                       )
                     })}

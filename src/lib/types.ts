@@ -3,6 +3,7 @@ export type Tournament = {
   year: number;
   location: string | null;
   number_of_groups: number;
+  number_of_fields: number;
   number_of_teams: number;
   is_active: boolean;
   created_at: string;
@@ -31,12 +32,14 @@ export type Match = {
   away_team_id: string;
   stage: string; // 'group', 'quarterfinal', etc.
   status: string; // 'scheduled', 'in_progress', 'finished'
+  field: string | null;
   home_score: number;
   away_score: number;
   start_time: string | null;
   created_at: string;
   home_team?: Team; // Joined
   away_team?: Team; // Joined
+  goals?: Goal[]; // Joined
 };
 
 export type Goal = {
@@ -44,7 +47,14 @@ export type Goal = {
   match_id: string;
   player_id: string;
   team_id: string;
-  minute: number | null;
   created_at: string;
   players?: Player; // Joined
+};
+
+export type ScheduleItem = {
+  id: string;
+  tournament_id: string;
+  time: string;
+  event: string;
+  created_at: string;
 };

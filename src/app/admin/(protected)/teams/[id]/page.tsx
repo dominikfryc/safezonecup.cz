@@ -1,9 +1,9 @@
-import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import { ArrowLeft, Users } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { CreatePlayerDialog } from './create-player-dialog'
+import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft, Users } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { CreatePlayerDialog } from './create-player-dialog';
 import {
   Table,
   TableBody,
@@ -11,27 +11,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { PlayerActions } from './player-actions'
+} from '@/components/ui/table';
+import { PlayerActions } from './player-actions';
 
-export default async function TeamDetailsPage({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
-  const { id: teamId } = await params
-  
-  const supabase = await createClient()
+export default async function TeamDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: teamId } = await params;
+
+  const supabase = await createClient();
 
   // Get team
-  const { data: team } = await supabase
-    .from('teams')
-    .select('*')
-    .eq('id', teamId)
-    .single()
-    
+  const { data: team } = await supabase.from('teams').select('*').eq('id', teamId).single();
+
   if (!team) {
-    redirect('/admin/teams')
+    redirect('/admin/teams');
   }
 
   // Get players
@@ -39,7 +31,7 @@ export default async function TeamDetailsPage({
     .from('players')
     .select('*')
     .eq('team_id', teamId)
-    .order('name')
+    .order('name');
 
   return (
     <div className="flex flex-col gap-6 pt-2">
@@ -52,7 +44,7 @@ export default async function TeamDetailsPage({
         </Button>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight mb-2">{team.name}</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{team.name}</h1>
           </div>
           <div className="flex items-center gap-2">
             {players && players.length > 0 && (
@@ -70,7 +62,8 @@ export default async function TeamDetailsPage({
             </div>
             <h2 className="mt-6 text-xl font-semibold">No players added</h2>
             <p className="mt-2 text-center text-sm font-normal leading-tight text-muted-foreground max-w-sm mb-6">
-              You haven&apos;t added any players to this team yet. Add players to complete your roster.
+              You haven&apos;t added any players to this team yet. Add players to complete your
+              roster.
             </p>
             <CreatePlayerDialog teamId={team.id} tournamentId={team.tournament_id} />
           </div>
@@ -85,9 +78,7 @@ export default async function TeamDetailsPage({
             <TableBody>
               {players?.map((player) => (
                 <TableRow key={player.id} className="relative group">
-                  <TableCell className="font-medium whitespace-nowrap">
-                    {player.name}
-                  </TableCell>
+                  <TableCell className="font-medium whitespace-nowrap">{player.name}</TableCell>
                   <TableCell className="text-right whitespace-nowrap">
                     <div className="flex items-center justify-end relative z-10">
                       <PlayerActions player={player} teamId={team.id} />
@@ -100,5 +91,5 @@ export default async function TeamDetailsPage({
         )}
       </div>
     </div>
-  )
+  );
 }

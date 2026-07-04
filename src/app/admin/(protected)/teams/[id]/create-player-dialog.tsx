@@ -32,9 +32,9 @@ export function CreatePlayerDialog({ teamId, tournamentId }: { teamId: string, t
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-black">Add Player</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Add Player</DialogTitle>
         </DialogHeader>
-        <form action={action}>
+        <form action={action} key={open ? 'open' : 'closed'}>
           <input type="hidden" name="tournament_id" value={tournamentId} />
           <input type="hidden" name="team_id" value={teamId} />
           <FieldGroup className="mb-8 gap-4">

@@ -45,9 +45,9 @@ export function CreateTeamDialog({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-black">Add team</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Add team</DialogTitle>
         </DialogHeader>
-        <form action={action}>
+        <form action={action} key={open ? 'open' : 'closed'}>
           <input type="hidden" name="tournament_id" value={tournamentId} />
           <FieldGroup className="mb-4 gap-4">
             <Field>
@@ -70,7 +70,7 @@ export function CreateTeamDialog({
                       const isFull = count >= maxTeamsPerGroup;
                       return (
                         <SelectItem key={group} value={group} disabled={isFull}>
-                          {group}
+                          Group {group}
                         </SelectItem>
                       )
                     })}

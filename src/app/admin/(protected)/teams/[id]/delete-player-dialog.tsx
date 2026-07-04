@@ -44,7 +44,7 @@ export function DeletePlayerDialog({ player, teamId, asDropdownItem, open, onOpe
       )}
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-2xl font-black mb-2">Remove Player?</AlertDialogTitle>
+          <AlertDialogTitle className="text-2xl font-bold mb-2">Remove Player?</AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to remove <strong>{player.name}</strong> from the roster? This cannot be undone.
           </AlertDialogDescription>

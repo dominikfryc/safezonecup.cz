@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { CreateTeamDialog } from './create-team-dialog';
 import { TeamActions } from './team-actions';
+import { calculateTeamStats, sortTeams } from '@/lib/standings';
 
 export default async function TeamsPage() {
   const supabase = await createClient();
@@ -56,10 +57,28 @@ export default async function TeamsPage() {
     .select('*, players(id)')
     .eq('tournament_id', activeTournament.id);
 
-  // Sort case-insensitively
-  const sortedTeams = [...(teams || [])].sort((a, b) => 
-    a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
-  );
+  // Get finished matches
+  const { data: matches } = await supabase
+    .from('matches')
+    .select('*')
+    .eq('tournament_id', activeTournament.id)
+    .eq('status', 'finished');
+
+  const teamIds = teams?.map((t) => t.id) || [];
+  const stats = calculateTeamStats(matches || [], teamIds);
+
+  const teamsWithStats = (teams || []).map((team) => {
+    const teamStats = stats[team.id] || { pts: 0, gd: 0, gs: 0 };
+    return {
+      ...team,
+      pts: teamStats.pts,
+      gd: teamStats.gd,
+      gs: teamStats.gs,
+      points: teamStats.pts,
+    };
+  });
+
+  const sortedTeams = sortTeams(teamsWithStats);
 
   const isMaxTeamsReached = sortedTeams.length >= activeTournament.number_of_teams;
 
@@ -76,23 +95,22 @@ export default async function TeamsPage() {
     {} as Record<string, number>,
   );
 
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const availableGroups = alphabet.slice(0, activeTournament.number_of_groups).split('');
+  const availableGroups = Array.from({ length: activeTournament.number_of_groups }, (_, i) => String(i + 1));
 
   return (
     <div className="flex flex-col gap-6 pt-2">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight mb-2">Teams</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Teams</h1>
         </div>
 
         {sortedTeams.length > 0 && !isMaxTeamsReached && (
-          <CreateTeamDialog 
-            tournamentId={activeTournament.id} 
-            disabled={isMaxTeamsReached} 
-            availableGroups={availableGroups} 
-            groupCounts={groupCounts} 
-            maxTeamsPerGroup={maxTeamsPerGroup} 
+          <CreateTeamDialog
+            tournamentId={activeTournament.id}
+            disabled={isMaxTeamsReached}
+            availableGroups={availableGroups}
+            groupCounts={groupCounts}
+            maxTeamsPerGroup={maxTeamsPerGroup}
           />
         )}
       </div>
@@ -105,15 +123,16 @@ export default async function TeamsPage() {
             </div>
             <h2 className="mt-6 text-xl font-semibold">No teams registered</h2>
             <p className="mt-2 text-center text-sm font-normal leading-tight text-muted-foreground max-w-sm mb-6">
-              You haven&apos;t added any teams to this tournament yet. Add teams to begin organizing.
+              You haven&apos;t added any teams to this tournament yet. Add teams to begin
+              organizing.
             </p>
             {!isMaxTeamsReached && (
-              <CreateTeamDialog 
-                tournamentId={activeTournament.id} 
-                disabled={isMaxTeamsReached} 
-                availableGroups={availableGroups} 
-                groupCounts={groupCounts} 
-                maxTeamsPerGroup={maxTeamsPerGroup} 
+              <CreateTeamDialog
+                tournamentId={activeTournament.id}
+                disabled={isMaxTeamsReached}
+                availableGroups={availableGroups}
+                groupCounts={groupCounts}
+                maxTeamsPerGroup={maxTeamsPerGroup}
               />
             )}
           </div>
@@ -122,8 +141,9 @@ export default async function TeamsPage() {
             <TableHeader>
               <TableRow>
                 <TableHead className="whitespace-nowrap">Team Name</TableHead>
-                <TableHead className="whitespace-nowrap">Players</TableHead>
                 <TableHead className="whitespace-nowrap">Group</TableHead>
+                <TableHead className="whitespace-nowrap">Points</TableHead>
+                <TableHead className="whitespace-nowrap">Players</TableHead>
                 <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -136,9 +156,6 @@ export default async function TeamsPage() {
                       <span className="sr-only">View {team.name}</span>
                     </Link>
                   </TableCell>
-                  <TableCell className="text-muted-foreground whitespace-nowrap">
-                    {team.players?.length || 0}
-                  </TableCell>
                   <TableCell className="whitespace-nowrap">
                     {team.group ? (
                       <span className="font-medium">{team.group}</span>
@@ -146,9 +163,15 @@ export default async function TeamsPage() {
                       <span className="text-muted-foreground italic text-xs">Unassigned</span>
                     )}
                   </TableCell>
+                  <TableCell className="font-medium whitespace-nowrap">
+                    {team.points}
+                  </TableCell>
+                  <TableCell className="font-medium whitespace-nowrap">
+                    {team.players?.length || 0}
+                  </TableCell>
                   <TableCell className="text-right whitespace-nowrap">
                     <div className="flex items-center justify-end relative z-10">
-                      <TeamActions 
+                      <TeamActions
                         team={team}
                         availableGroups={availableGroups}
                         groupCounts={groupCounts}

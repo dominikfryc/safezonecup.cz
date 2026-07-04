@@ -20,13 +20,13 @@ export function LoginForm({
 }: LoginFormProps) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden p-0 shadow-2xl">
-        <CardContent className="grid p-0 md:grid-cols-2">
+      <Card className="overflow-hidden p-0 shadow-none">
+        <CardContent className="p-0">
           <form action={login} className="p-6 md:p-8 flex flex-col justify-center">
             <FieldGroup>
-              <div className="flex flex-col items-center gap-2 text-center mb-6">
+              <div className="flex flex-col items-center gap-1 text-center mb-4">
                 <h1 className="text-2xl font-bold">Admin Access</h1>
-                <p className="text-balance text-muted-foreground">
+                <p className="text-balance text-muted-foreground text-sm">
                   Sign in to manage the tournament
                 </p>
               </div>
@@ -51,19 +51,11 @@ export function LoginForm({
                 </div>
               )}
 
-              <Field className="mt-4">
+              <Field className="mt-2">
                 <Button type="submit" className="w-full">Sign In</Button>
               </Field>
             </FieldGroup>
           </form>
-          <div className="relative hidden bg-muted md:block">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/placeholder.svg"
-              alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-            />
-          </div>
         </CardContent>
       </Card>
     </div>

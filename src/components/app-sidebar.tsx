@@ -1,53 +1,50 @@
-"use client"
+'use client';
 
-import * as React from "react"
+import * as React from 'react';
 
-
-import { NavMain } from "@/components/nav-main"
-import { NavUser } from "@/components/nav-user"
-import { TournamentSwitcher } from "@/components/tournament-switcher"
-import { Tournament } from "@/lib/types"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-
-} from "@/components/ui/sidebar"
-import { LayoutDashboardIcon, UsersIcon, TrophyIcon } from "lucide-react"
+import { NavMain } from '@/components/nav-main';
+import { NavUser } from '@/components/nav-user';
+import { TournamentSwitcher } from '@/components/tournament-switcher';
+import { Tournament } from '@/lib/types';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
+import { LayoutDashboardIcon, UsersIcon, TrophyIcon, CalendarIcon } from 'lucide-react';
 
 const data = {
   navMain: [
     {
-      title: "Dashboard",
-      url: "/admin",
+      title: 'Dashboard',
+      url: '/admin',
       icon: <LayoutDashboardIcon />,
     },
     {
-      title: "Teams",
-      url: "/admin/teams",
+      title: 'Teams',
+      url: '/admin/teams',
       icon: <UsersIcon />,
     },
-
     {
-      title: "Matches",
-      url: "/admin/matches",
+      title: 'Matches',
+      url: '/admin/matches',
       icon: <TrophyIcon />,
     },
+    {
+      title: 'Schedule',
+      url: '/admin/schedule',
+      icon: <CalendarIcon />,
+    },
   ],
-}
+};
 
-export function AppSidebar({ 
-  email, 
+export function AppSidebar({
+  email,
   userName,
-  tournaments, 
-  activeTournamentId, 
-  ...props 
-}: React.ComponentProps<typeof Sidebar> & { 
-  email: string
-  userName: string
-  tournaments: Tournament[]
-  activeTournamentId: string 
+  tournaments,
+  activeTournamentId,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & {
+  email: string;
+  userName: string;
+  tournaments: Tournament[];
+  activeTournamentId: string;
 }) {
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -56,13 +53,10 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        
-
-
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={{ name: userName, email: email, avatar: "" }} />
+        <NavUser user={{ name: userName, email: email, avatar: '' }} />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

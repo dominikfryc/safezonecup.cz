@@ -1,13 +1,15 @@
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
-import { createMatch, updateMatchScore, generatePlayoffs, generateGroupMatches } from './actions'
-import { Trophy } from 'lucide-react'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import Link from 'next/link'
+import { generatePlayoffs, generateGroupMatches, generateSemifinals, generateFinals } from './actions'
+import { Trophy, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { FieldGroup, Field, FieldLabel } from '@/components/ui/field'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { CreateMatchDialog } from './create-match-dialog'
+import { MatchActions } from './match-actions'
+import { GenerateButton } from './generate-button'
+import { formatTime } from '@/lib/utils'
 
 export default async function MatchesPage() {
   const supabase = await createClient()
@@ -44,7 +46,8 @@ export default async function MatchesPage() {
     .from('matches')
     .select('*, home_team:teams!home_team_id(id, name), away_team:teams!away_team_id(id, name)')
     .eq('tournament_id', activeTournament.id)
-    .order('start_time', { ascending: false })
+    .order('start_time', { ascending: true })
+    .order('field', { ascending: true })
 
   const groupMatches = matches?.filter(m => m.stage === 'group') || []
   const playoffMatches = matches?.filter(m => m.stage !== 'group') || []
@@ -52,191 +55,148 @@ export default async function MatchesPage() {
   const allGroupMatchesFinished = groupMatches.length > 0 && groupMatches.every(m => m.status === 'finished')
   const playoffsGenerated = playoffMatches.length > 0
 
+  const qfMatches = matches?.filter(m => m.stage === 'quarterfinal') || []
+  const smallSfMatches = matches?.filter(m => m.stage === 'small_semifinal') || []
+  const allQfFinished = qfMatches.length === 4 && qfMatches.every(m => m.status === 'finished')
+  const allSmallSfFinished = smallSfMatches.length === 2 && smallSfMatches.every(m => m.status === 'finished')
+  const semifinalsGenerated = matches?.some(m => m.stage === 'semifinal')
+  
+  const sfMatches = matches?.filter(m => m.stage === 'semifinal') || []
+  const allSfFinished = sfMatches.length === 2 && sfMatches.every(m => m.status === 'finished')
+  
+  const finalsGenerated = matches?.some(m => m.stage === 'final')
+  
+  const readyForSemifinals = allQfFinished && allSmallSfFinished
+
   return (
     <div className="flex flex-col gap-6 pt-2">
-      <div className="flex justify-between items-end">
+      <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight mb-2">Match Management</h1>
-          <p className="text-muted-foreground">Update scores and manage the tournament flow</p>
+          <h1 className="text-3xl font-bold tracking-tight">Matches</h1>
         </div>
+
         <div className="flex gap-2">
           {groupMatches.length === 0 && (
-            <form action={generateGroupMatches}>
-              <input type="hidden" name="tournament_id" value={activeTournament.id} />
-              <Button 
-                type="submit" 
-                variant="outline"
-                className="font-bold flex items-center gap-2"
-              >
-                <Trophy className="size-4" />
-                Generate Group Matches
-              </Button>
-            </form>
+            <GenerateButton 
+              action={generateGroupMatches} 
+              tournamentId={activeTournament.id} 
+              label="Generate Group Matches" 
+            />
           )}
 
           {allGroupMatchesFinished && !playoffsGenerated && (
-            <form action={generatePlayoffs}>
-              <input type="hidden" name="tournament_id" value={activeTournament.id} />
-              <Button 
-                type="submit" 
-                className="font-bold shadow-lg flex items-center gap-2 transition-transform hover:scale-105"
-              >
-                <Trophy className="size-5" />
-                Generate Playoffs
-              </Button>
-            </form>
+            <GenerateButton 
+              action={generatePlayoffs} 
+              tournamentId={activeTournament.id} 
+              label="Generate Playoffs" 
+            />
+          )}
+
+          {readyForSemifinals && !semifinalsGenerated && (
+            <GenerateButton 
+              action={generateSemifinals} 
+              tournamentId={activeTournament.id} 
+              label="Generate Semifinals" 
+            />
+          )}
+
+          {allSfFinished && !finalsGenerated && (
+            <GenerateButton 
+              action={generateFinals} 
+              tournamentId={activeTournament.id} 
+              label="Generate Finals" 
+            />
+          )}
+
+          {matches && matches.length > 0 && (
+            <CreateMatchDialog 
+              tournamentId={activeTournament.id} 
+              tournamentTeams={tournamentTeams || []} 
+              tournamentFieldsCount={activeTournament.number_of_fields || 1}
+            />
           )}
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
-        
-        {/* Create Match */}
-        <Card className="h-fit rounded-md">
-          <CardHeader>
-            <CardTitle>Create Match</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form action={createMatch} className="flex flex-col gap-4">
-              <input type="hidden" name="tournament_id" value={activeTournament.id} />
-              
-              <FieldGroup>
-                <Field>
-                  <FieldLabel>Stage</FieldLabel>
-                  <Select name="stage" defaultValue="group">
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select stage..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="group">Group Stage</SelectItem>
-                        <SelectItem value="quarterfinal">Quarterfinal</SelectItem>
-                        <SelectItem value="semifinal">Semifinal</SelectItem>
-                        <SelectItem value="small_semifinal">Small Semifinal</SelectItem>
-                        <SelectItem value="small_final">Small Final</SelectItem>
-                        <SelectItem value="final">Final</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </Field>
-
-                <Field>
-                  <FieldLabel>Home Team</FieldLabel>
-                  <Select name="home_team_id" required>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select home team..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        {tournamentTeams?.map(tt => (
-                          <SelectItem key={tt.id} value={tt.id}>{tt.name} {tt.group_name ? `(Group ${tt.group_name})` : ''}</SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </Field>
-
-                <Field>
-                  <FieldLabel>Away Team</FieldLabel>
-                  <Select name="away_team_id" required>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select away team..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        {tournamentTeams?.map(tt => (
-                          <SelectItem key={tt.id} value={tt.id}>{tt.name} {tt.group_name ? `(Group ${tt.group_name})` : ''}</SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </Field>
-              </FieldGroup>
-
-              <Button type="submit" className="w-full mt-2">
-                Create Match
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-
-        {/* Existing Matches List */}
-        <Card className="lg:col-span-2 rounded-md p-6 flex flex-col gap-6">
-          <h2 className="text-xl font-semibold">All Matches</h2>
-          
-          <div className="flex flex-col gap-4">
-            {matches?.map(match => (
-              <Card key={match.id} className="p-5 shadow-sm rounded-md">
-                <div className="flex justify-between items-center mb-4">
-                  <Badge variant="secondary" className="uppercase tracking-wider text-xs">
-                    {match.stage.replace('_', ' ')}
-                  </Badge>
-                  <Badge variant={
-                    match.status === 'finished' ? 'default' :
-                    match.status === 'in_progress' ? 'destructive' :
-                    'outline'
-                  } className={match.status === 'in_progress' ? 'animate-pulse' : ''}>
-                    {match.status.replace('_', ' ').toUpperCase()}
-                  </Badge>
-                </div>
-
-                <form action={updateMatchScore} className="flex items-center justify-between gap-4">
-                  <input type="hidden" name="match_id" value={match.id} />
-                  
-                  <div className="flex-1 text-right font-medium text-lg">
-                    {match.home_team?.name}
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    <Input 
-                      type="number" 
-                      name="home_score" 
-                      defaultValue={match.home_score}
-                      min="0"
-                      className="w-16 h-12 text-center font-bold text-xl"
-                    />
-                    <span className="text-muted-foreground font-bold">-</span>
-                    <Input 
-                      type="number" 
-                      name="away_score" 
-                      defaultValue={match.away_score}
-                      min="0"
-                      className="w-16 h-12 text-center font-bold text-xl"
-                    />
-                  </div>
-
-                  <div className="flex-1 text-left font-medium text-lg">
-                    {match.away_team?.name}
-                  </div>
-
-                  <div className="flex flex-col gap-2 w-32">
-                    <Select name="status" defaultValue={match.status}>
-                      <SelectTrigger className="h-8 text-xs">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="scheduled">Scheduled</SelectItem>
-                          <SelectItem value="in_progress">In Progress</SelectItem>
-                          <SelectItem value="finished">Finished</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    <Button type="submit" size="sm" className="h-8 text-xs">
-                      Update
-                    </Button>
-                  </div>
-                </form>
-              </Card>
-            ))}
-
-            {matches?.length === 0 && (
-              <div className="text-center py-12 border rounded-xl border-dashed bg-secondary/20">
-                <p className="text-muted-foreground">No matches created yet.</p>
-              </div>
-            )}
+      <div className="w-full rounded-md border overflow-hidden bg-card">
+        {matches?.length === 0 ? (
+          <div className="flex flex-col items-center justify-center p-12 text-center animate-in fade-in-50">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+              <Trophy className="size-10 text-muted-foreground" />
+            </div>
+            <h2 className="mt-6 text-xl font-semibold">No matches generated</h2>
+            <p className="mt-2 text-center text-sm font-normal leading-tight text-muted-foreground max-w-sm mb-6">
+              There are no matches in this tournament yet. Create a match or generate group matches to begin.
+            </p>
+            <CreateMatchDialog 
+              tournamentId={activeTournament.id} 
+              tournamentTeams={tournamentTeams || []} 
+              tournamentFieldsCount={activeTournament.number_of_fields || 1}
+            />
           </div>
-        </Card>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="whitespace-nowrap w-[100px]">Stage</TableHead>
+                <TableHead className="whitespace-nowrap w-[80px]">Time</TableHead>
+                <TableHead className="whitespace-nowrap w-[80px]">Field</TableHead>
+                <TableHead className="whitespace-nowrap">Home Team</TableHead>
+                <TableHead className="whitespace-nowrap">Away Team</TableHead>
+                <TableHead className="whitespace-nowrap w-[100px]">Status</TableHead>
+                <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {matches?.map(match => (
+                <TableRow key={match.id} className="relative group hover:bg-muted/50 transition-colors cursor-pointer">
+                  <TableCell className="font-medium whitespace-nowrap">
+                    <Badge variant="secondary" className="uppercase tracking-wider text-[10px]">
+                      {match.stage.replace('_', ' ')}
+                    </Badge>
+                    <Link href={`/admin/matches/${match.id}`} className="absolute inset-0 z-0">
+                      <span className="sr-only">View Match</span>
+                    </Link>
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap font-medium">
+                    {formatTime(match.start_time)}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {match.field ? (
+                      <span className="font-medium">{match.field}</span>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">-</span>
+                    )}
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {match.home_team?.name}
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {match.away_team?.name}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    <Badge variant={
+                      match.status === 'finished' ? 'default' :
+                      match.status === 'in_progress' ? 'destructive' :
+                      'outline'
+                    } className={`text-[10px] ${match.status === 'in_progress' ? 'animate-pulse' : ''}`}>
+                      {match.status.replace('_', ' ').toUpperCase()}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-right whitespace-nowrap">
+                    <div className="flex items-center justify-end relative z-10">
+                      <MatchActions 
+                        match={match} 
+                        tournamentTeams={tournamentTeams || []} 
+                        tournamentFieldsCount={activeTournament.number_of_fields || 1}
+                      />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </div>
     </div>
   )
