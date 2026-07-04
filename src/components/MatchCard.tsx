@@ -1,7 +1,8 @@
 import { Match } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { formatTime } from '@/lib/utils';
+import { formatTime, translateStage } from '@/lib/utils';
+import Link from 'next/link';
 
 export function MatchCard({
   match,
@@ -42,7 +43,7 @@ export function MatchCard({
       className={`relative overflow-hidden transition-all duration-300 h-full ${isFinished ? 'bg-secondary/20' : 'bg-card shadow-sm hover:shadow-md'}`}
     >
       {matchState === 'playing' && (
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-600"></div>
+        <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-blue-500 to-purple-600"></div>
       )}
 
       <CardContent className="p-0">
@@ -55,8 +56,8 @@ export function MatchCard({
               <span className="text-sm font-medium text-muted-foreground">
                 Hřiště {match.field || '?'}
               </span>
-              <span className="text-xs text-muted-foreground uppercase tracking-wider hidden sm:inline-block">
-                • {match.stage === 'group' ? 'Základní skupina' : match.stage.replace('_', ' ')}
+              <span className="text-xs text-muted-foreground tracking-wider hidden sm:inline-block">
+                • {translateStage(match.stage)}
               </span>
             </div>
             <div>
@@ -78,9 +79,15 @@ export function MatchCard({
             <div
               className={`flex-1 text-right font-bold text-lg leading-tight ${isFinished && match.home_score < match.away_score ? 'text-muted-foreground' : 'text-foreground'}`}
             >
-              {homeName}
+              {match.home_team_id ? (
+                <Link href={`/teams/${match.home_team_id}`} className="hover:underline hover:text-primary transition-colors">
+                  {homeName}
+                </Link>
+              ) : (
+                homeName
+              )}
             </div>
-            <div className="px-4 sm:px-6 flex items-center justify-center min-w-[90px] sm:min-w-[100px]">
+            <div className="px-4 sm:px-6 flex items-center justify-center min-w-22.5 sm:min-w-25">
               {matchState === 'upcoming' ? (
                 <span className="text-muted-foreground text-sm font-bold">VS</span>
               ) : (
@@ -102,7 +109,13 @@ export function MatchCard({
             <div
               className={`flex-1 text-left font-bold text-lg leading-tight ${isFinished && match.away_score < match.home_score ? 'text-muted-foreground' : 'text-foreground'}`}
             >
-              {awayName}
+              {match.away_team_id ? (
+                <Link href={`/teams/${match.away_team_id}`} className="hover:underline hover:text-primary transition-colors">
+                  {awayName}
+                </Link>
+              ) : (
+                awayName
+              )}
             </div>
           </div>
 
@@ -115,7 +128,7 @@ export function MatchCard({
                   </div>
                 ))}
               </div>
-              <div className="min-w-[90px] sm:min-w-[100px]"></div>
+              <div className="min-w-22.5 sm:min-w-25"></div>
               <div className="flex-1 text-left flex flex-col gap-1">
                 {awayScorers.map((s) => (
                   <div key={s.name}>

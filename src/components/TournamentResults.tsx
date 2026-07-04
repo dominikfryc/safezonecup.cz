@@ -1,8 +1,15 @@
 import { Match } from '@/lib/types';
 import { Trophy, Medal, Award } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import Link from 'next/link';
 
-export default function TournamentResults({ matches }: { matches: Match[] }) {
+export default function TournamentResults({ 
+  matches,
+  hidePodium = false
+}: { 
+  matches: Match[];
+  hidePodium?: boolean;
+}) {
   const finalMatch = matches.find((m) => m.stage === 'final');
   const smallFinal = matches.find((m) => m.stage === 'small_final');
 
@@ -53,7 +60,7 @@ export default function TournamentResults({ matches }: { matches: Match[] }) {
   ].filter((s) => s.team);
 
   return (
-    <div className="flex flex-col gap-12 mb-4 animate-in fade-in slide-in-from-bottom-8 duration-700">
+    <div className="flex flex-col gap-12 mb-4">
       <div className="text-center space-y-4">
         <h2 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600">
           Turnaj byl ukončen
@@ -64,53 +71,59 @@ export default function TournamentResults({ matches }: { matches: Match[] }) {
       </div>
 
       {/* Podium */}
-      <div className="flex flex-col md:flex-row justify-center items-end gap-6 h-auto md:h-[300px] mt-8">
-        {/* 2nd Place */}
-        {secondPlace && (
-          <div className="flex flex-col items-center justify-end w-full md:w-1/4 order-2 md:order-1 h-[250px] md:h-[80%]">
-            <div className="flex flex-col items-center mb-4">
-              <Medal className="w-12 h-12 text-slate-300 mb-2 drop-shadow-md" />
-              <span className="font-bold text-xl text-center px-4">{secondPlace.name}</span>
+      {!hidePodium && (
+        <div className="flex flex-col md:flex-row justify-center items-end gap-6 h-auto md:h-[300px] mt-8">
+          {/* 2nd Place */}
+          {secondPlace && (
+            <div className="flex flex-col items-center justify-end w-full md:w-1/4 order-2 md:order-1 h-[250px] md:h-[80%]">
+              <div className="flex flex-col items-center mb-4">
+                <Medal className="w-12 h-12 text-slate-300 mb-2 drop-shadow-md" />
+                <Link href={`/teams/${secondPlace.id}`} className="font-bold text-xl text-center px-4 hover:underline hover:text-primary transition-colors">
+                  {secondPlace.name}
+                </Link>
+              </div>
+              <div className="w-full h-full bg-gradient-to-t from-slate-200 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-t-xl border border-slate-300 dark:border-slate-600 flex items-start justify-center pt-4 shadow-xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-white/20 dark:bg-white/5"></div>
+                <span className="text-5xl font-black text-slate-400/50">2</span>
+              </div>
             </div>
-            <div className="w-full h-full bg-gradient-to-t from-slate-200 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-t-xl border border-slate-300 dark:border-slate-600 flex items-start justify-center pt-4 shadow-xl relative overflow-hidden">
-              <div className="absolute inset-0 bg-white/20 dark:bg-white/5"></div>
-              <span className="text-5xl font-black text-slate-400/50">2</span>
-            </div>
-          </div>
-        )}
+          )}
 
-        {/* 1st Place */}
-        {firstPlace && (
-          <div className="flex flex-col items-center justify-end w-full md:w-1/3 order-1 md:order-2 h-[300px] md:h-full z-10">
-            <div className="flex flex-col items-center mb-4">
-              <Trophy className="w-16 h-16 text-yellow-400 mb-2 drop-shadow-lg" />
-              <span className="font-black text-2xl text-center px-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
-                {firstPlace.name}
-              </span>
+          {/* 1st Place */}
+          {firstPlace && (
+            <div className="flex flex-col items-center justify-end w-full md:w-1/3 order-1 md:order-2 h-[300px] md:h-full z-10">
+              <div className="flex flex-col items-center mb-4">
+                <Trophy className="w-16 h-16 text-yellow-400 mb-2 drop-shadow-lg" />
+                <Link href={`/teams/${firstPlace.id}`} className="font-black text-2xl text-center px-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 hover:scale-105 transition-transform cursor-pointer">
+                  {firstPlace.name}
+                </Link>
+              </div>
+              <div className="w-full h-full bg-gradient-to-t from-yellow-400 to-yellow-200 dark:from-yellow-600 dark:to-yellow-500 rounded-t-xl border border-yellow-300 dark:border-yellow-500 flex items-start justify-center pt-4 shadow-2xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-white/20 dark:bg-white/10"></div>
+                <span className="text-6xl font-black text-yellow-600/50 dark:text-yellow-900/30">
+                  1
+                </span>
+              </div>
             </div>
-            <div className="w-full h-full bg-gradient-to-t from-yellow-400 to-yellow-200 dark:from-yellow-600 dark:to-yellow-500 rounded-t-xl border border-yellow-300 dark:border-yellow-500 flex items-start justify-center pt-4 shadow-2xl relative overflow-hidden">
-              <div className="absolute inset-0 bg-white/20 dark:bg-white/10"></div>
-              <span className="text-6xl font-black text-yellow-600/50 dark:text-yellow-900/30">
-                1
-              </span>
-            </div>
-          </div>
-        )}
+          )}
 
-        {/* 3rd Place */}
-        {thirdPlace && (
-          <div className="flex flex-col items-center justify-end w-full md:w-1/4 order-3 md:order-3 h-[220px] md:h-[70%]">
-            <div className="flex flex-col items-center mb-4">
-              <Award className="w-12 h-12 text-amber-600 mb-2 drop-shadow-md" />
-              <span className="font-bold text-xl text-center px-4">{thirdPlace.name}</span>
+          {/* 3rd Place */}
+          {thirdPlace && (
+            <div className="flex flex-col items-center justify-end w-full md:w-1/4 order-3 md:order-3 h-[220px] md:h-[70%]">
+              <div className="flex flex-col items-center mb-4">
+                <Award className="w-12 h-12 text-amber-600 mb-2 drop-shadow-md" />
+                <Link href={`/teams/${thirdPlace.id}`} className="font-bold text-xl text-center px-4 hover:underline hover:text-primary transition-colors">
+                  {thirdPlace.name}
+                </Link>
+              </div>
+              <div className="w-full h-full bg-gradient-to-t from-amber-700/80 to-amber-600/80 dark:from-amber-900/80 dark:to-amber-800/80 rounded-t-xl border border-amber-600 dark:border-amber-700 flex items-start justify-center pt-4 shadow-xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-white/10 dark:bg-white/5"></div>
+                <span className="text-5xl font-black text-amber-900/30">3</span>
+              </div>
             </div>
-            <div className="w-full h-full bg-gradient-to-t from-amber-700/80 to-amber-600/80 dark:from-amber-900/80 dark:to-amber-800/80 rounded-t-xl border border-amber-600 dark:border-amber-700 flex items-start justify-center pt-4 shadow-xl relative overflow-hidden">
-              <div className="absolute inset-0 bg-white/10 dark:bg-white/5"></div>
-              <span className="text-5xl font-black text-amber-900/30">3</span>
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       {/* Final Standings */}
       <Card className="mt-8 bg-card shadow-lg">
@@ -138,7 +151,13 @@ export default function TournamentResults({ matches }: { matches: Match[] }) {
                 >
                   {rank}
                 </div>
-                <span className="font-medium truncate">{team?.name || '?'}</span>
+                {team ? (
+                  <Link href={`/teams/${team.id}`} className="font-medium truncate hover:underline hover:text-primary transition-colors">
+                    {team.name}
+                  </Link>
+                ) : (
+                  <span className="font-medium truncate">?</span>
+                )}
               </div>
             ))}
           </div>

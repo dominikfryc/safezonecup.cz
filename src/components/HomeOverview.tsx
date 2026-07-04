@@ -138,7 +138,7 @@ export default function HomeOverview({ tournamentId }: { tournamentId: string })
 
   return (
     <div className="flex flex-col gap-16">
-      <TournamentResults matches={matches} />
+      <TournamentResults matches={matches} hidePodium={true} />
 
       {/* Field Overview */}
       <div className="flex flex-col gap-6">

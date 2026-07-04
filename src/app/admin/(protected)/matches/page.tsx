@@ -157,12 +157,12 @@ export default async function MatchesPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="whitespace-nowrap w-[100px]">Fáze</TableHead>
-                <TableHead className="whitespace-nowrap w-[80px]">Čas</TableHead>
-                <TableHead className="whitespace-nowrap w-[80px]">Hřiště</TableHead>
+                <TableHead className="whitespace-nowrap">Fáze</TableHead>
+                <TableHead className="whitespace-nowrap">Čas</TableHead>
+                <TableHead className="whitespace-nowrap">Hřiště</TableHead>
                 <TableHead className="whitespace-nowrap">Domácí</TableHead>
                 <TableHead className="whitespace-nowrap">Hosté</TableHead>
-                <TableHead className="whitespace-nowrap w-[100px]">Stav</TableHead>
+                <TableHead className="whitespace-nowrap">Stav</TableHead>
                 <TableHead className="text-right whitespace-nowrap">Akce</TableHead>
               </TableRow>
             </TableHeader>

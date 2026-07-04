@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
+import Link from 'next/link';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -186,7 +187,9 @@ export default function StandingsTable({ tournamentId }: { tournamentId: string 
                   <TableRow key={team.id}>
                     <TableCell className="font-medium flex items-center gap-2">
                       <span className="text-xs text-muted-foreground w-3">{index + 1}</span>
-                      {team.name}
+                      <Link href={`/teams/${team.id}`} className="hover:underline hover:text-primary transition-colors">
+                        {team.name}
+                      </Link>
                     </TableCell>
                     <TableCell className="text-center text-muted-foreground">
                       {team.played}
@@ -210,7 +213,7 @@ export default function StandingsTable({ tournamentId }: { tournamentId: string 
         ))}
       </div>
 
-      <Card className="overflow-hidden shadow-xl bg-gradient-to-br from-background to-secondary/10 border-primary/20">
+      <Card className="overflow-hidden shadow-xl bg-linear-to-br from-background to-secondary/10 border-primary/20">
         <CardHeader className="flex flex-row items-center justify-between bg-secondary/20 pb-4">
           <CardTitle className="text-lg">Celková tabulka (Kvalifikace do Play-off)</CardTitle>
           <p className="text-xs text-muted-foreground hidden sm:block">
@@ -220,7 +223,7 @@ export default function StandingsTable({ tournamentId }: { tournamentId: string 
         <Table>
           <TableHeader className="bg-secondary/10">
             <TableRow>
-              <TableHead className="w-[100px]">Poř.</TableHead>
+              <TableHead className="w-25">Poř.</TableHead>
               <TableHead>Tým</TableHead>
               <TableHead className="text-center">Z</TableHead>
               <TableHead className="text-center hidden sm:table-cell">V</TableHead>
@@ -252,7 +255,9 @@ export default function StandingsTable({ tournamentId }: { tournamentId: string 
                   </div>
                 </TableCell>
                 <TableCell className="font-bold">
-                  {team.name}{' '}
+                  <Link href={`/teams/${team.id}`} className="hover:underline hover:text-primary transition-colors">
+                    {team.name}
+                  </Link>
                   <span className="text-xs font-normal text-muted-foreground ml-2">
                     (Sk. {team.group})
                   </span>

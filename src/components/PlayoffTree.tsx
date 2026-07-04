@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Match } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
+import Link from 'next/link';
 
 const MatchNode = ({ match, title }: { match?: Match; title?: string }) => (
   <Card className="w-64 overflow-hidden flex flex-col relative z-10 shadow-lg border-primary/20">
@@ -18,7 +19,13 @@ const MatchNode = ({ match, title }: { match?: Match; title?: string }) => (
         <div
           className={`flex justify-between items-center px-3 py-2 border-b border-border/50 ${match.status === 'finished' && match.home_score > match.away_score ? 'font-bold text-foreground' : 'text-muted-foreground'}`}
         >
-          <span className="truncate pr-2">{match.home_team?.name || 'TBD'}</span>
+          {match.home_team_id ? (
+            <Link href={`/teams/${match.home_team_id}`} className="truncate pr-2 hover:underline hover:text-primary transition-colors">
+              {match.home_team?.name || 'TBD'}
+            </Link>
+          ) : (
+            <span className="truncate pr-2">{match.home_team?.name || 'TBD'}</span>
+          )}
           <span className="text-primary font-mono bg-secondary px-2 py-0.5 rounded">
             {match.home_score}
           </span>
@@ -26,7 +33,13 @@ const MatchNode = ({ match, title }: { match?: Match; title?: string }) => (
         <div
           className={`flex justify-between items-center px-3 py-2 ${match.status === 'finished' && match.away_score > match.home_score ? 'font-bold text-foreground' : 'text-muted-foreground'}`}
         >
-          <span className="truncate pr-2">{match.away_team?.name || 'TBD'}</span>
+          {match.away_team_id ? (
+            <Link href={`/teams/${match.away_team_id}`} className="truncate pr-2 hover:underline hover:text-primary transition-colors">
+              {match.away_team?.name || 'TBD'}
+            </Link>
+          ) : (
+            <span className="truncate pr-2">{match.away_team?.name || 'TBD'}</span>
+          )}
           <span className="text-primary font-mono bg-secondary px-2 py-0.5 rounded">
             {match.away_score}
           </span>

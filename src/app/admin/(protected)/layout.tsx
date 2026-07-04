@@ -68,9 +68,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             </Button>
           </div>
         </header>
-        <main className="flex flex-1 flex-col p-4 md:p-6 max-w-[960px] mx-auto w-full">
-          {children}
-        </main>
+        <main className="flex flex-1 flex-col p-4 md:p-6 max-w-240 mx-auto w-full">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

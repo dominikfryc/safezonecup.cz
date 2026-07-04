@@ -1,6 +1,5 @@
 import { createClient } from '@/utils/supabase/server';
 import PlayoffTree from '@/components/PlayoffTree';
-import { PublicTournamentHeader } from '@/components/PublicTournamentHeader';
 
 export default async function PlayoffsPage() {
   const supabase = await createClient();
@@ -13,7 +12,6 @@ export default async function PlayoffsPage() {
 
   return (
     <div>
-      <PublicTournamentHeader tournament={activeTournament} />
       {activeTournament && (
         <section>
           <div className="mb-8 text-center">

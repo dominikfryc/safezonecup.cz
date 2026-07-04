@@ -1,6 +1,5 @@
 import { createClient } from '@/utils/supabase/server';
 import StandingsTable from '@/components/StandingsTable';
-import { PublicTournamentHeader } from '@/components/PublicTournamentHeader';
 
 export default async function GroupsPage() {
   const supabase = await createClient();
@@ -13,7 +12,6 @@ export default async function GroupsPage() {
 
   return (
     <div>
-      <PublicTournamentHeader tournament={activeTournament} />
       {activeTournament && (
         <section>
           <div className="mb-8 text-center">
