@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 
 const MatchNode = ({ match, title }: { match?: Match; title?: string }) => (
-  <Card className="w-64 overflow-hidden flex flex-col relative z-10 shadow-lg border-primary/20">
+  <Card className="w-64 overflow-hidden flex flex-col relative z-10 shadow-none bg-card ring-primary/20">
     {(title || match?.field) && (
       <div className="flex justify-between text-[10px] font-bold uppercase tracking-wider bg-secondary px-3 py-1 text-muted-foreground">
         <span>{title}</span>
@@ -20,7 +20,10 @@ const MatchNode = ({ match, title }: { match?: Match; title?: string }) => (
           className={`flex justify-between items-center px-3 py-2 border-b border-border/50 ${match.status === 'finished' && match.home_score > match.away_score ? 'font-bold text-foreground' : 'text-muted-foreground'}`}
         >
           {match.home_team_id ? (
-            <Link href={`/teams/${match.home_team_id}`} className="truncate pr-2 hover:underline hover:text-primary transition-colors">
+            <Link
+              href={`/teams/${match.home_team_id}`}
+              className="truncate pr-2 hover:underline hover:text-primary transition-colors"
+            >
               {match.home_team?.name || 'TBD'}
             </Link>
           ) : (
@@ -34,7 +37,10 @@ const MatchNode = ({ match, title }: { match?: Match; title?: string }) => (
           className={`flex justify-between items-center px-3 py-2 ${match.status === 'finished' && match.away_score > match.home_score ? 'font-bold text-foreground' : 'text-muted-foreground'}`}
         >
           {match.away_team_id ? (
-            <Link href={`/teams/${match.away_team_id}`} className="truncate pr-2 hover:underline hover:text-primary transition-colors">
+            <Link
+              href={`/teams/${match.away_team_id}`}
+              className="truncate pr-2 hover:underline hover:text-primary transition-colors"
+            >
               {match.away_team?.name || 'TBD'}
             </Link>
           ) : (
@@ -100,9 +106,9 @@ export default function PlayoffTree({ tournamentId }: { tournamentId: string }) 
 
   if (matches.length === 0) {
     return (
-      <Card className="text-center py-16 bg-secondary/20 border-dashed">
+      <Card className="text-center py-16 bg-card shadow-none border-dashed">
         <p className="text-muted-foreground italic">
-          Play-off ještě nebylo vygenerováno. Nejprve dokončete základní skupiny.
+          Play-off bude k dispozici po skončení základní části a vyřazovacích zápasů.
         </p>
       </Card>
     );
@@ -122,12 +128,7 @@ export default function PlayoffTree({ tournamentId }: { tournamentId: string }) 
 
   return (
     <div className="flex flex-col overflow-x-auto pb-8">
-      <div className="min-w-[800px]">
-        <h3 className="text-2xl font-bold mb-12 flex items-center gap-3">
-          <span className="w-3 h-8 bg-blue-500 rounded-full"></span>
-          Pavouk play-off
-        </h3>
-
+      <div className="w-max min-w-[800px] p-4 pr-8">
         <div className="flex flex-col gap-8">
           {/* Top 8 Bracket */}
           <div className="flex gap-16 relative">
@@ -165,8 +166,8 @@ export default function PlayoffTree({ tournamentId }: { tournamentId: string }) 
             </div>
 
             {/* Final */}
-            <div className="flex flex-col justify-center relative left-32">
-              <div className="relative transform scale-110">
+            <div className="flex flex-col justify-center relative left-32 mr-32">
+              <div className="relative">
                 <div className="absolute top-1/2 -left-16 w-16 h-px bg-border"></div>
                 <MatchNode match={final[0]} title="Finále" />
               </div>
@@ -174,31 +175,33 @@ export default function PlayoffTree({ tournamentId }: { tournamentId: string }) 
           </div>
 
           {/* Bottom 4 Bracket */}
-          <div className="flex gap-16 relative mt-16 pt-8 border-t border-border/50">
-            {/* Small Semis */}
-            <div className="flex flex-col gap-8 justify-center">
-              <div className="absolute -left-2 -top-4 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                O 9.-12. místo
+          <div className="mt-16 pt-8 border-t border-primary/20">
+            <h4 className="text-sm font-bold mb-6 text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+              Malé play-off
+            </h4>
+            <div className="flex gap-16 relative">
+              {/* Small Semis */}
+              <div className="flex flex-col gap-8 justify-center">
+                {[0, 1].map((i) => (
+                  <div key={`ssf-${i}`} className="relative">
+                    <MatchNode match={smallSemis[i]} title={`Malé semifinále ${i + 1}`} />
+                    <div className="absolute top-1/2 -right-16 w-16 h-px bg-border"></div>
+                    {i === 0 && (
+                      <div className="absolute top-1/2 -right-16 w-px h-[calc(50%+2rem)] bg-border"></div>
+                    )}
+                    {i === 1 && (
+                      <div className="absolute bottom-1/2 -right-16 w-px h-[calc(50%+2rem)] bg-border"></div>
+                    )}
+                  </div>
+                ))}
               </div>
-              {[0, 1].map((i) => (
-                <div key={`ssf-${i}`} className="relative">
-                  <MatchNode match={smallSemis[i]} title={`Malé semifinále ${i + 1}`} />
-                  <div className="absolute top-1/2 -right-16 w-16 h-px bg-border"></div>
-                  {i === 0 && (
-                    <div className="absolute top-1/2 -right-16 w-px h-[calc(50%+2rem)] bg-border"></div>
-                  )}
-                  {i === 1 && (
-                    <div className="absolute bottom-1/2 -right-16 w-px h-[calc(50%+2rem)] bg-border"></div>
-                  )}
-                </div>
-              ))}
-            </div>
 
-            {/* 9th Place Match */}
-            <div className="flex flex-col justify-center relative left-16">
-              <div className="relative">
-                <div className="absolute top-1/2 -left-16 w-16 h-px bg-border"></div>
-                <MatchNode match={ninthPlace[0]} title="Zápas o 9. místo" />
+              {/* 9th Place Match */}
+              <div className="flex flex-col justify-center relative left-16 mr-16">
+                <div className="relative">
+                  <div className="absolute top-1/2 -left-16 w-16 h-px bg-border"></div>
+                  <MatchNode match={ninthPlace[0]} title="Zápas o 9. místo" />
+                </div>
               </div>
             </div>
           </div>
@@ -209,7 +212,7 @@ export default function PlayoffTree({ tournamentId }: { tournamentId: string }) 
           fifthPlace.length > 0 ||
           seventhPlace.length > 0 ||
           eleventhPlace.length > 0) && (
-          <div className="mt-16 pt-8 border-t border-border">
+          <div className="mt-16 pt-8 border-t border-primary/20">
             <h4 className="text-sm font-bold mb-6 text-muted-foreground uppercase tracking-wider flex items-center gap-2">
               Zápasy o umístění
             </h4>

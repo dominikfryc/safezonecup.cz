@@ -33,11 +33,6 @@ export default function Schedule({ matches }: { matches: Match[] }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center gap-3">
-        <div className="size-2.5 rounded-full bg-purple-500"></div>
-        <h3 className="text-2xl font-bold">Rozpis zápasů</h3>
-      </div>
-
       <div className={`grid gap-4 md:grid-cols-2 ${getGridColsClass(numFields)}`}>
         {sortedMatches.map((match) => (
           <MatchCard key={match.id} match={match} />

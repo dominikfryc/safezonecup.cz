@@ -26,7 +26,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </Link>
         </header>
 
-        <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <main className="relative z-10 flex-1 w-full max-w-240 mx-auto p-4 md:p-6">
           {children}
         </main>
       </div>

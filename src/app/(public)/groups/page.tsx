@@ -11,15 +11,14 @@ export default async function GroupsPage() {
   const activeTournament = tournaments?.[0];
 
   return (
-    <div>
+    <div className="flex flex-col gap-6 pt-2">
       {activeTournament && (
-        <section>
-          <div className="mb-8 text-center">
-            <h2 className="text-3xl font-bold text-foreground mb-2">Tabulky skupin</h2>
-            <p className="text-muted-foreground">Aktuální body, skóre a postupující týmy.</p>
+        <>
+          <div className="text-center py-4">
+            <h1 className="text-3xl font-bold tracking-tight">Skupiny</h1>
           </div>
           <StandingsTable tournamentId={activeTournament.id} />
-        </section>
+        </>
       )}
     </div>
   );

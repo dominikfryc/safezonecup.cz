@@ -12,7 +12,7 @@ export default async function HomePage() {
   const activeTournament = tournaments?.[0];
 
   return (
-    <div>
+    <div className="flex flex-col gap-6 pt-2">
       <PublicTournamentHeader tournament={activeTournament} />
       {activeTournament && (
         <section>

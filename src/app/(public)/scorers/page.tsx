@@ -52,20 +52,12 @@ export default async function ScorersPage() {
     .sort((a, b) => b.goals - a.goals || a.name.localeCompare(b.name));
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex items-center gap-4">
-        <div className="w-12 h-12 rounded-2xl bg-linear-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/20">
-          <Trophy className="w-6 h-6 text-white" />
-        </div>
-        <div>
-          <h1 className="text-4xl font-black tracking-tight">Tabulka střelců</h1>
-          <p className="text-muted-foreground mt-1">
-            Nejlepší střelci turnaje
-          </p>
-        </div>
+    <div className="flex flex-col gap-6 pt-2">
+      <div className="text-center py-4">
+        <h1 className="text-3xl font-bold tracking-tight">Střelci</h1>
       </div>
 
-      <Card className="border-none shadow-xl bg-card/50 backdrop-blur-xl">
+      <Card className="border-none shadow-none bg-card/50 backdrop-blur-xl">
         <CardContent className="p-0">
           <Table>
             <TableHeader className="bg-muted/50">
@@ -89,13 +81,13 @@ export default async function ScorersPage() {
                     key={scorer.id}
                     className="group hover:bg-muted/50 transition-colors"
                   >
-                    <TableCell className="text-center font-semibold text-muted-foreground group-hover:text-foreground transition-colors">
+                    <TableCell className="py-2 text-center font-semibold text-muted-foreground group-hover:text-foreground transition-colors">
                       {index + 1}.
                     </TableCell>
-                    <TableCell className="font-medium text-lg">
+                    <TableCell className="py-2 font-medium text-lg">
                       {scorer.name}
                     </TableCell>
-                    <TableCell className="text-muted-foreground">
+                    <TableCell className="py-2 text-muted-foreground">
                       {scorer.team ? (
                         <Link href={`/teams/${scorer.team.id}`} className="hover:underline hover:text-primary transition-colors">
                           {scorer.team.name}
@@ -104,7 +96,7 @@ export default async function ScorersPage() {
                         'Neznámý tým'
                       )}
                     </TableCell>
-                    <TableCell className="text-right pr-6">
+                    <TableCell className="py-2 text-right pr-6">
                       <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-lg group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                         {scorer.goals}
                       </div>

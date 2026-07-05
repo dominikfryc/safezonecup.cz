@@ -142,13 +142,12 @@ export default function HomeOverview({ tournamentId }: { tournamentId: string })
 
       {/* Field Overview */}
       <div className="flex flex-col gap-6">
-        <div className="flex items-center gap-3">
-          <div className="size-2.5 rounded-full bg-blue-500"></div>
-          <h3 className="text-2xl font-bold">Přehled hřišť</h3>
+        <div className="text-center">
+          <h3 className="text-2xl font-bold">Aktuální zápasy</h3>
         </div>
 
         {fields.length === 0 ? (
-          <Card className="p-8 text-center bg-secondary/20">
+          <Card className="p-8 text-center bg-card shadow-none border-dashed">
             <p className="text-muted-foreground">Na hřištích nejsou naplánovány žádné zápasy.</p>
           </Card>
         ) : (
@@ -166,11 +165,6 @@ export default function HomeOverview({ tournamentId }: { tournamentId: string })
 
               return (
                 <div key={field} className="flex flex-col gap-4">
-                  <div className="bg-secondary/50 rounded-lg py-3 px-4 text-center border border-border/50 shadow-sm">
-                    <h4 className="text-lg font-bold uppercase tracking-widest text-primary">
-                      Hřiště {field}
-                    </h4>
-                  </div>
                   <MatchCard match={activeMatchInfo.match} state={activeMatchInfo.state} />
                 </div>
               );

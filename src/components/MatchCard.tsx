@@ -40,12 +40,8 @@ export function MatchCard({
 
   return (
     <Card
-      className={`relative overflow-hidden transition-all duration-300 h-full ${isFinished ? 'bg-secondary/20' : 'bg-card shadow-sm hover:shadow-md'}`}
+      className={`relative overflow-hidden transition-all duration-300 h-full bg-card shadow-none`}
     >
-      {matchState === 'playing' && (
-        <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-blue-500 to-purple-600"></div>
-      )}
-
       <CardContent className="p-0">
         <div className="p-4 flex flex-col gap-4">
           <div className="flex items-center justify-between border-b pb-3 border-border/50">

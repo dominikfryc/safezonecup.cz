@@ -168,7 +168,7 @@ export default function StandingsTable({ tournamentId }: { tournamentId: string 
         {availableGroups.map((groupName) => (
           <Card
             key={groupName}
-            className="overflow-hidden shadow-xl border-t-4 border-t-primary/50"
+            className="overflow-hidden shadow-none bg-card transition-all duration-300"
           >
             <CardHeader className="bg-secondary/20 pb-4">
               <CardTitle>Skupina {groupName}</CardTitle>
@@ -213,9 +213,9 @@ export default function StandingsTable({ tournamentId }: { tournamentId: string 
         ))}
       </div>
 
-      <Card className="overflow-hidden shadow-xl bg-linear-to-br from-background to-secondary/10 border-primary/20">
+      <Card className="overflow-hidden shadow-none bg-card">
         <CardHeader className="flex flex-row items-center justify-between bg-secondary/20 pb-4">
-          <CardTitle className="text-lg">Celková tabulka (Kvalifikace do Play-off)</CardTitle>
+          <CardTitle className="text-lg">Kvalifikace do Play-off</CardTitle>
           <p className="text-xs text-muted-foreground hidden sm:block">
             Prvních 8 postupuje do velkého Play-off
           </p>
@@ -223,7 +223,7 @@ export default function StandingsTable({ tournamentId }: { tournamentId: string 
         <Table>
           <TableHeader className="bg-secondary/10">
             <TableRow>
-              <TableHead className="w-25">Poř.</TableHead>
+              <TableHead className="w-16 text-center">Poř.</TableHead>
               <TableHead>Tým</TableHead>
               <TableHead className="text-center">Z</TableHead>
               <TableHead className="text-center hidden sm:table-cell">V</TableHead>
@@ -238,29 +238,15 @@ export default function StandingsTable({ tournamentId }: { tournamentId: string 
             {standings.map((team: TeamStats, index: number) => (
               <TableRow
                 key={team.id}
-                className={`
-                  ${index < 8 ? 'bg-blue-500/5' : index < 12 ? 'bg-purple-500/5' : 'opacity-50'}
-                `}
+                className={index >= 12 ? 'opacity-50' : ''}
               >
-                <TableCell>
-                  <div className="flex flex-col gap-0.5">
-                    <span
-                      className={`font-bold ${index < 8 ? 'text-blue-500' : index < 12 ? 'text-purple-500' : 'text-muted-foreground'}`}
-                    >
-                      #{index + 1}
-                    </span>
-                    <span className="text-[10px] text-muted-foreground uppercase leading-none">
-                      {index < 8 ? 'Velké' : index < 12 ? 'Malé' : 'Konec'}
-                    </span>
-                  </div>
+                <TableCell className="text-center font-semibold text-muted-foreground">
+                  {index + 1}.
                 </TableCell>
                 <TableCell className="font-bold">
                   <Link href={`/teams/${team.id}`} className="hover:underline hover:text-primary transition-colors">
                     {team.name}
                   </Link>
-                  <span className="text-xs font-normal text-muted-foreground ml-2">
-                    (Sk. {team.group})
-                  </span>
                 </TableCell>
                 <TableCell className="text-center text-muted-foreground">{team.played}</TableCell>
                 <TableCell className="text-center text-muted-foreground hidden sm:table-cell">

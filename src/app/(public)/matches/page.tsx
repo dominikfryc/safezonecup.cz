@@ -11,15 +11,14 @@ export default async function MatchesPage() {
   const activeTournament = tournaments?.[0];
 
   return (
-    <div>
+    <div className="flex flex-col gap-6 pt-2">
       {activeTournament && (
-        <section>
-          <div className="mb-8 text-center">
-            <h2 className="text-3xl font-bold text-foreground mb-2">Všechny zápasy</h2>
-            <p className="text-muted-foreground">Kompletní rozpis zápasů a výsledky.</p>
+        <>
+          <div className="text-center py-4">
+            <h1 className="text-3xl font-bold tracking-tight">Zápasy</h1>
           </div>
           <MatchesList tournamentId={activeTournament.id} />
-        </section>
+        </>
       )}
     </div>
   );

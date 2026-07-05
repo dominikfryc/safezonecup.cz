@@ -60,16 +60,7 @@ export default function TournamentResults({
   ].filter((s) => s.team);
 
   return (
-    <div className="flex flex-col gap-12 mb-4">
-      <div className="text-center space-y-4">
-        <h2 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600">
-          Turnaj byl ukončen
-        </h2>
-        <p className="text-muted-foreground text-lg">
-          Gratulujeme vítězům a všem zúčastněným týmům!
-        </p>
-      </div>
-
+    <div className="flex flex-col gap-16">
       {/* Podium */}
       {!hidePodium && (
         <div className="flex flex-col md:flex-row justify-center items-end gap-6 h-auto md:h-[300px] mt-8">
@@ -126,20 +117,20 @@ export default function TournamentResults({
       )}
 
       {/* Final Standings */}
-      <Card className="mt-8 bg-card shadow-lg">
-        <CardContent className="p-6">
-          <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <span className="w-2 h-6 bg-primary rounded-full"></span>
+      <div className="flex flex-col gap-6">
+        <div className="text-center">
+          <h3 className="text-2xl font-bold">
             Konečné pořadí
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {standings.map(({ rank, team }) => (
-              <div
-                key={team?.id || rank}
-                className="flex items-center gap-4 p-3 rounded-lg bg-secondary/50 border border-border/50 transition-colors hover:bg-secondary"
-              >
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {standings.map(({ rank, team }) => {
+            const cardClasses = "flex items-center gap-4 p-4 rounded-xl bg-card shadow-none border border-border transition-colors hover:bg-muted/50 group";
+            
+            const content = (
+              <>
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
+                  className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center font-bold text-sm ${
                     rank === 1
                       ? 'bg-yellow-400 text-yellow-900'
                       : rank === 2
@@ -151,18 +142,28 @@ export default function TournamentResults({
                 >
                   {rank}
                 </div>
-                {team ? (
-                  <Link href={`/teams/${team.id}`} className="font-medium truncate hover:underline hover:text-primary transition-colors">
-                    {team.name}
-                  </Link>
-                ) : (
-                  <span className="font-medium truncate">?</span>
-                )}
+                <span className="font-medium truncate text-foreground group-hover:text-primary transition-colors">
+                  {team ? team.name : '?'}
+                </span>
+              </>
+            );
+
+            if (team) {
+              return (
+                <Link key={team.id} href={`/teams/${team.id}`} className={cardClasses}>
+                  {content}
+                </Link>
+              );
+            }
+
+            return (
+              <div key={rank} className={cardClasses.replace(' hover:bg-muted/50 group', '')}>
+                {content}
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
