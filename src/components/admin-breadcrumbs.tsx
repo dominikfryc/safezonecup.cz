@@ -67,8 +67,10 @@ export function AdminBreadcrumbs() {
           {teamName && (
             <>
               <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{teamName}</BreadcrumbPage>
+              <BreadcrumbItem className="min-w-0">
+                <BreadcrumbPage className="truncate max-w-37.5 sm:max-w-75 md:max-w-100 block">
+                  {teamName}
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </>
           )}
@@ -87,8 +89,10 @@ export function AdminBreadcrumbs() {
           {matchTitle && (
             <>
               <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{matchTitle}</BreadcrumbPage>
+              <BreadcrumbItem className="min-w-0">
+                <BreadcrumbPage className="truncate max-w-37.5 sm:max-w-75 md:max-w-100 block">
+                  {matchTitle}
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </>
           )}

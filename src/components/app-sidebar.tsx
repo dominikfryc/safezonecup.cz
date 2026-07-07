@@ -7,7 +7,7 @@ import { NavUser } from '@/components/nav-user';
 import { TournamentSwitcher } from '@/components/tournament-switcher';
 import { Tournament } from '@/lib/types';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
-import { LayoutDashboardIcon, UsersIcon, TrophyIcon, CalendarIcon } from 'lucide-react';
+import { LayoutDashboardIcon, UsersIcon, CalendarIcon, ClockIcon } from 'lucide-react';
 
 const data = {
   navMain: [
@@ -24,12 +24,12 @@ const data = {
     {
       title: 'Zápasy',
       url: '/admin/matches',
-      icon: <TrophyIcon />,
+      icon: <CalendarIcon />,
     },
     {
       title: 'Harmonogram',
       url: '/admin/schedule',
-      icon: <CalendarIcon />,
+      icon: <ClockIcon />,
     },
   ],
 };

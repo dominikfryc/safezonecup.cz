@@ -22,6 +22,13 @@ import { CreateMatchDialog } from './create-match-dialog';
 import { MatchActions } from './match-actions';
 import { GenerateButton } from './generate-button';
 import { formatTime } from '@/lib/utils';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Zápasy',
+};
+
+export const revalidate = 0;
 
 export default async function MatchesPage() {
   const supabase = await createClient();

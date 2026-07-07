@@ -13,10 +13,26 @@ const satoshi = localFont({
   weight: '300 900',
 });
 
-export const metadata: Metadata = {
-  title: 'SAFEZONE CUP',
-  description: 'Official Tournament Dashboard',
-};
+import { createClient } from '@/utils/supabase/server';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const supabase = await createClient();
+  const { data: tournaments } = await supabase
+    .from('tournaments')
+    .select('name')
+    .eq('is_active', true)
+    .limit(1);
+  const activeTournament = tournaments?.[0];
+  const tournamentName = activeTournament?.name || 'SAFEZONE CUP';
+
+  return {
+    title: {
+      template: `%s | ${tournamentName}`,
+      default: tournamentName,
+    },
+    description: 'Official Tournament Dashboard',
+  };
+}
 
 export default function RootLayout({
   children,

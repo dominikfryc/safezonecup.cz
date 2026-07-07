@@ -47,6 +47,10 @@ export function CreateTournamentDialog() {
               <Input name="name" type="text" required />
             </Field>
             <Field>
+              <FieldLabel>Datum</FieldLabel>
+              <Input name="date" type="date" />
+            </Field>
+            <Field>
               <FieldLabel>Místo konání</FieldLabel>
               <Input name="location" />
             </Field>

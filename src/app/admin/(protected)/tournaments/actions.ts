@@ -7,6 +7,7 @@ export async function createTournament(formData: FormData) {
   const supabase = await createClient();
 
   const name = formData.get('name') as string;
+  const date = formData.get('date') as string;
   const location = formData.get('location') as string;
   const number_of_groups = parseInt(formData.get('number_of_groups') as string);
   const number_of_teams = parseInt(formData.get('number_of_teams') as string);
@@ -20,6 +21,7 @@ export async function createTournament(formData: FormData) {
 
   const { error } = await supabase.from('tournaments').insert({
     name,
+    date: date || null,
     location: location || null,
     number_of_groups,
     number_of_fields,
@@ -55,6 +57,7 @@ export async function editTournament(formData: FormData) {
 
   const id = formData.get('id') as string;
   const name = formData.get('name') as string;
+  const date = formData.get('date') as string;
   const location = formData.get('location') as string;
   const number_of_groups = parseInt(formData.get('number_of_groups') as string);
   const number_of_teams = parseInt(formData.get('number_of_teams') as string);
@@ -64,6 +67,7 @@ export async function editTournament(formData: FormData) {
     .from('tournaments')
     .update({
       name,
+      date: date || null,
       location: location || null,
       number_of_groups,
       number_of_fields,

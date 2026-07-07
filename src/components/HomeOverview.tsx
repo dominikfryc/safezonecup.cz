@@ -10,7 +10,7 @@ import TournamentResults from './TournamentResults';
 import TournamentSchedule from './TournamentSchedule';
 import { MatchCard } from './MatchCard';
 
-export default function HomeOverview({ tournamentId }: { tournamentId: string }) {
+export default function HomeOverview({ tournamentId, tournamentDate }: { tournamentId: string; tournamentDate?: string | null }) {
   const [matches, setMatches] = useState<Match[]>([]);
   const [schedules, setSchedules] = useState<ScheduleItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -107,6 +107,24 @@ export default function HomeOverview({ tournamentId }: { tournamentId: string })
     const sortedMatches = [...fieldMatches].sort((a, b) =>
       (a.start_time || '').localeCompare(b.start_time || ''),
     );
+
+    const today = new Date().toISOString().split('T')[0];
+    const isTournamentDay = tournamentDate === today;
+    const isTournamentPast = tournamentDate ? tournamentDate < today : false;
+
+    if (isTournamentPast) {
+      return {
+        match: sortedMatches[sortedMatches.length - 1],
+        state: 'finished' as const,
+      };
+    }
+
+    if (!isTournamentDay && tournamentDate) {
+      return {
+        match: sortedMatches[0],
+        state: 'upcoming' as const,
+      };
+    }
 
     for (const match of sortedMatches) {
       if (!match.start_time) continue;

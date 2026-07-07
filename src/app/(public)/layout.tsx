@@ -2,8 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AuthHashHandler } from '@/components/auth-hash-handler';
 import { PublicNav } from '@/components/PublicNav';
-import { headers } from 'next/headers';
-
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
@@ -26,9 +24,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </Link>
         </header>
 
-        <main className="relative z-10 flex-1 w-full max-w-240 mx-auto p-4 md:p-6">
-          {children}
-        </main>
+        <main className="relative z-10 flex-1 w-full max-w-240 mx-auto p-4 md:p-6">{children}</main>
       </div>
     </div>
   );

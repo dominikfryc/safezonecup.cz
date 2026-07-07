@@ -1,6 +1,7 @@
 export type Tournament = {
   id: string;
   name: string;
+  date: string | null;
   location: string | null;
   number_of_groups: number;
   number_of_fields: number;

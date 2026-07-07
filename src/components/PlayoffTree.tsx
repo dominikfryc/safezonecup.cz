@@ -120,7 +120,7 @@ export default function PlayoffTree({ tournamentId }: { tournamentId: string }) 
   const semifinals = getMatchesByStage('semifinal');
   const final = getMatchesByStage('final');
   const smallSemis = getMatchesByStage('small_semifinal');
-  const smallFinal = getMatchesByStage('small_final'); // 3rd place
+  const smallFinal = getMatchesByStage('small_final');
   const fifthPlace = getMatchesByStage('5th_place');
   const seventhPlace = getMatchesByStage('7th_place');
   const ninthPlace = getMatchesByStage('9th_place');
@@ -128,7 +128,7 @@ export default function PlayoffTree({ tournamentId }: { tournamentId: string }) 
 
   return (
     <div className="flex flex-col overflow-x-auto pb-8">
-      <div className="w-max min-w-[800px] p-4 pr-8">
+      <div className="w-max min-w-200 p-4 pr-8">
         <div className="flex flex-col gap-8">
           {/* Top 8 Bracket */}
           <div className="flex gap-16 relative">
@@ -149,7 +149,7 @@ export default function PlayoffTree({ tournamentId }: { tournamentId: string }) 
             </div>
 
             {/* Semifinals */}
-            <div className="flex flex-col gap-[10rem] justify-center relative left-16">
+            <div className="flex flex-col gap-40 justify-center relative left-16">
               {[0, 1].map((i) => (
                 <div key={`sf-${i}`} className="relative">
                   <div className="absolute top-1/2 -left-16 w-16 h-px bg-border"></div>

@@ -1,5 +1,10 @@
 import { createClient } from '@/utils/supabase/server';
 import MatchesList from '@/components/MatchesList';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Zápasy',
+};
 
 export default async function MatchesPage() {
   const supabase = await createClient();

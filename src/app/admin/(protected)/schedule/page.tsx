@@ -15,6 +15,11 @@ import { CreateScheduleDialog } from './create-schedule-dialog';
 import { ScheduleActions } from './schedule-actions';
 import { formatTime } from '@/lib/utils';
 import { ScheduleItem } from '@/lib/types';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Harmonogram',
+};
 
 export default async function SchedulePage() {
   const supabase = await createClient();

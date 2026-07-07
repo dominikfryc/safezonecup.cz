@@ -2,6 +2,11 @@ import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Users, User, Trophy, Target } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Přehled',
+};
 
 export default async function AdminDashboard() {
   const supabase = await createClient();

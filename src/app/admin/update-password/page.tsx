@@ -5,6 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { updatePassword } from './actions';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Změna hesla',
+};
 
 export default async function UpdatePasswordPage(props: {
   searchParams: Promise<{ error?: string }>;

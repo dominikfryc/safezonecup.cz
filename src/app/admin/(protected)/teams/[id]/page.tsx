@@ -79,7 +79,7 @@ export default async function TeamDetailsPage({ params }: { params: Promise<{ id
               {players?.map((player) => (
                 <TableRow key={player.id} className="relative group">
                   <TableCell className="font-medium whitespace-nowrap">{player.name}</TableCell>
-                  <TableCell className="text-center">{player.goals?.length || 0}</TableCell>
+                  <TableCell className="text-center font-medium">{player.goals?.length || 0}</TableCell>
                   <TableCell className="text-right whitespace-nowrap">
                     <div className="flex items-center justify-end relative z-10">
                       <PlayerActions player={player} teamId={team.id} />

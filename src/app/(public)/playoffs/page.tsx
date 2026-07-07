@@ -1,5 +1,10 @@
 import { createClient } from '@/utils/supabase/server';
 import PlayoffTree from '@/components/PlayoffTree';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Play-off',
+};
 
 export default async function PlayoffsPage() {
   const supabase = await createClient();

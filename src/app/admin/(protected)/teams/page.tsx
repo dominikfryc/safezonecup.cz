@@ -13,7 +13,11 @@ import {
 import { Button } from '@/components/ui/button';
 import { CreateTeamDialog } from './create-team-dialog';
 import { TeamActions } from './team-actions';
-import { calculateTeamStats, sortTeams } from '@/lib/standings';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Týmy',
+};
 
 export default async function TeamsPage() {
   const supabase = await createClient();
@@ -57,28 +61,7 @@ export default async function TeamsPage() {
     .select('*, players(id)')
     .eq('tournament_id', activeTournament.id);
 
-  // Get finished matches
-  const { data: matches } = await supabase
-    .from('matches')
-    .select('*')
-    .eq('tournament_id', activeTournament.id)
-    .eq('status', 'finished');
-
-  const teamIds = teams?.map((t) => t.id) || [];
-  const stats = calculateTeamStats(matches || [], teamIds);
-
-  const teamsWithStats = (teams || []).map((team) => {
-    const teamStats = stats[team.id] || { pts: 0, gd: 0, gs: 0 };
-    return {
-      ...team,
-      pts: teamStats.pts,
-      gd: teamStats.gd,
-      gs: teamStats.gs,
-      points: teamStats.pts,
-    };
-  });
-
-  const sortedTeams = sortTeams(teamsWithStats);
+  const sortedTeams = [...(teams || [])].sort((a, b) => a.name.localeCompare(b.name, 'cs'));
 
   const isMaxTeamsReached = sortedTeams.length >= activeTournament.number_of_teams;
 
@@ -144,7 +127,6 @@ export default async function TeamsPage() {
               <TableRow>
                 <TableHead className="whitespace-nowrap">Tým</TableHead>
                 <TableHead className="whitespace-nowrap">Skupina</TableHead>
-                <TableHead className="whitespace-nowrap">Body</TableHead>
                 <TableHead className="whitespace-nowrap">Hráči</TableHead>
                 <TableHead className="text-right whitespace-nowrap">Akce</TableHead>
               </TableRow>
@@ -165,7 +147,6 @@ export default async function TeamsPage() {
                       <span className="text-muted-foreground italic text-xs">Nepřiřazeno</span>
                     )}
                   </TableCell>
-                  <TableCell className="font-medium whitespace-nowrap">{team.points}</TableCell>
                   <TableCell className="font-medium whitespace-nowrap">
                     {team.players?.length || 0}
                   </TableCell>

@@ -11,6 +11,12 @@ import {
 } from '@/components/ui/table';
 import { CreateTournamentDialog } from './create-tournament-dialog';
 import { TournamentActions } from './tournament-actions';
+import { formatDate } from '@/lib/utils';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Turnaje',
+};
 
 export default async function AdminDashboard() {
   const supabase = await createClient();
@@ -36,6 +42,7 @@ export default async function AdminDashboard() {
             <TableHeader>
               <TableRow>
                 <TableHead className="whitespace-nowrap">Název</TableHead>
+                <TableHead className="whitespace-nowrap">Datum</TableHead>
                 <TableHead className="whitespace-nowrap">Místo</TableHead>
                 <TableHead className="whitespace-nowrap">Velikost</TableHead>
                 <TableHead className="whitespace-nowrap">Stav</TableHead>
@@ -49,6 +56,9 @@ export default async function AdminDashboard() {
                   data-state={tournament.is_active ? 'selected' : undefined}
                 >
                   <TableCell className="font-medium whitespace-nowrap">{tournament.name}</TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {formatDate(tournament.date)}
+                  </TableCell>
                   <TableCell className="whitespace-nowrap">{tournament.location || '-'}</TableCell>
                   <TableCell className="whitespace-nowrap">
                     {tournament.number_of_teams} Týmů / {tournament.number_of_groups} Skupin /{' '}

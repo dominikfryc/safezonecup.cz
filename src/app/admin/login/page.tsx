@@ -1,4 +1,9 @@
 import { LoginForm } from '@/components/login-form';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Přihlášení',
+};
 
 export default async function LoginPage(props: { searchParams: Promise<{ error?: string }> }) {
   const searchParams = await props.searchParams;

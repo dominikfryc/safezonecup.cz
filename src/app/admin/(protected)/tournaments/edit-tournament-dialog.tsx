@@ -73,6 +73,10 @@ export function EditTournamentDialog({
               <Input name="name" type="text" required defaultValue={tournament.name} />
             </Field>
             <Field>
+              <FieldLabel>Datum</FieldLabel>
+              <Input name="date" type="date" defaultValue={tournament.date || ''} />
+            </Field>
+            <Field>
               <FieldLabel>Místo konání</FieldLabel>
               <Input name="location" defaultValue={tournament.location || ''} />
             </Field>

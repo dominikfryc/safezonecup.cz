@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import * as React from 'react';
-import { ChevronsUpDown, TrophyIcon, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import { ChevronsUpDown, ArrowRight } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -21,6 +21,7 @@ import {
 import { setAdminTournamentCookie } from '@/app/admin/actions';
 
 import { useRouter } from 'next/navigation';
+import { formatDate } from '@/lib/utils';
 
 export function TournamentSwitcher({
   tournaments,
@@ -29,6 +30,7 @@ export function TournamentSwitcher({
   tournaments: {
     id: string;
     name: string;
+    date: string | null;
     location: string | null;
     is_active: boolean;
   }[];
@@ -47,13 +49,19 @@ export function TournamentSwitcher({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <TrophyIcon className="size-4" />
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground p-2">
+                <Image
+                  src="/logo-icon.svg"
+                  alt="Tournament Icon"
+                  width={16}
+                  height={16}
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{activeTournament?.name}</span>
                 <span className="truncate text-xs">
-                  {activeTournament?.location || 'Bez lokace'}
+                  {activeTournament?.date ? formatDate(activeTournament.date) : 'Bez data'}
                 </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />

@@ -50,16 +50,18 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         activeTournamentId={activeTournamentId}
       />
       <SidebarInset>
-        <header className="flex h-(--header-height) shrink-0 items-center justify-between border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height) sticky top-0 bg-sidebar z-40 px-4 lg:px-6 w-full">
-          <div className="flex items-center gap-1 lg:gap-2">
-            <SidebarTrigger className="-ml-1 md:hidden" />
+        <header className="flex h-(--header-height) shrink-0 items-center justify-between gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height) sticky top-0 bg-sidebar z-40 px-4 lg:px-6 w-full">
+          <div className="flex items-center gap-1 lg:gap-2 flex-1 min-w-0">
+            <SidebarTrigger className="-ml-1 md:hidden shrink-0" />
             <Separator
               orientation="vertical"
-              className="mx-2 data-[orientation=vertical]:h-8 md:hidden"
+              className="mx-2 data-[orientation=vertical]:h-8 md:hidden shrink-0"
             />
-            <AdminBreadcrumbs />
+            <div className="min-w-0 flex-1">
+              <AdminBreadcrumbs />
+            </div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center shrink-0">
             <Button asChild variant="outline" size="sm">
               <Link href="/" target="_blank">
                 <ExternalLink className="size-4 mr-2" />

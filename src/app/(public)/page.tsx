@@ -16,7 +16,7 @@ export default async function HomePage() {
       <PublicTournamentHeader tournament={activeTournament} />
       {activeTournament && (
         <section>
-          <HomeOverview tournamentId={activeTournament.id} />
+          <HomeOverview tournamentId={activeTournament.id} tournamentDate={activeTournament.date} />
         </section>
       )}
     </div>

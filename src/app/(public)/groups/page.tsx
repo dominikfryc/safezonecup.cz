@@ -1,5 +1,10 @@
 import { createClient } from '@/utils/supabase/server';
 import StandingsTable from '@/components/StandingsTable';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Skupiny',
+};
 
 export default async function GroupsPage() {
   const supabase = await createClient();

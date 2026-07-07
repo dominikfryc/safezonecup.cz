@@ -23,6 +23,15 @@ export function formatTime(timeString: string | null | undefined): string {
   }
 }
 
+export function formatDate(dateStr: string | null | undefined): string {
+  if (!dateStr) return '-';
+  return new Date(dateStr).toLocaleDateString('cs-CZ', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
 export const stageTranslations: Record<string, string> = {
   group: 'Základní skupina',
   quarterfinal: 'Čtvrtfinále',
@@ -33,7 +42,7 @@ export const stageTranslations: Record<string, string> = {
   '5th_place': 'O 5. místo',
   '7th_place': 'O 7. místo',
   '9th_place': 'O 9. místo',
-  '11th_place': 'O 11. místo'
+  '11th_place': 'O 11. místo',
 };
 
 export function translateStage(stage: string | null | undefined): string {
